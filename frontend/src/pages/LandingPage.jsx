@@ -6,6 +6,8 @@ import FeatureHighlight from '../components/FeatureHighlight.jsx'
 import HowItWorks from '../components/HowItWorks.jsx'
 import Testimonials from '../components/Testimonials.jsx'
 import Pricing from '../components/Pricing.jsx'
+import Resources from '../components/Resources.jsx'
+import About from '../components/About.jsx'
 import CTA from '../components/CTA.jsx'
 import Footer from '../components/Footer.jsx'
 
@@ -21,6 +23,8 @@ export default function LandingPage() {
         <HowItWorks />
         <Testimonials />
         <Pricing />
+        <Resources />
+        <About />
         <CTA />
       </main>
       <Footer />
