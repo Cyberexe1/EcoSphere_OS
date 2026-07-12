@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 const AuthContext = createContext(null)
 
 const STORAGE_KEY = 'ecosphere.auth.user'
+const USERS_KEY = 'ecosphere.auth.registered'
 
 // Demo credentials — use these to log in.
 export const DEMO_CREDENTIALS = {
@@ -14,6 +15,14 @@ const DEMO_USER = {
   name: 'Sarah Jenkins',
   email: DEMO_CREDENTIALS.email,
   role: 'Chief Sustainability Officer',
+}
+
+function loadRegistered() {
+  try {
+    return JSON.parse(localStorage.getItem(USERS_KEY)) || []
+  } catch {
+    return []
+  }
 }
 
 export function AuthProvider({ children }) {
@@ -32,20 +41,50 @@ export function AuthProvider({ children }) {
   }, [user])
 
   const login = (email, password) => {
-    const matches =
-      email.trim().toLowerCase() === DEMO_CREDENTIALS.email &&
-      password === DEMO_CREDENTIALS.password
-    if (matches) {
+    const normalized = email.trim().toLowerCase()
+    if (normalized === DEMO_CREDENTIALS.email && password === DEMO_CREDENTIALS.password) {
       setUser(DEMO_USER)
+      return { ok: true }
+    }
+    const registered = loadRegistered().find((u) => u.email === normalized)
+    if (registered && registered.password === password) {
+      setUser({ name: registered.name, email: registered.email, role: registered.role })
       return { ok: true }
     }
     return { ok: false, error: 'Invalid email or password. Try the demo credentials below.' }
   }
 
+  const register = ({ name, email, password, org }) => {
+    const normalized = email.trim().toLowerCase()
+    if (normalized === DEMO_CREDENTIALS.email) {
+      return { ok: false, error: 'That email is reserved for the demo account.' }
+    }
+    const registered = loadRegistered()
+    if (registered.some((u) => u.email === normalized)) {
+      return { ok: false, error: 'An account with this email already exists.' }
+    }
+    const newUser = {
+      name,
+      email: normalized,
+      password,
+      role: org ? `Admin · ${org}` : 'Team Member',
+    }
+    localStorage.setItem(USERS_KEY, JSON.stringify([...registered, newUser]))
+    return { ok: true }
+  }
+
+  const emailExists = (email) => {
+    const normalized = email.trim().toLowerCase()
+    return (
+      normalized === DEMO_CREDENTIALS.email ||
+      loadRegistered().some((u) => u.email === normalized)
+    )
+  }
+
   const logout = () => setUser(null)
 
   const value = useMemo(
-    () => ({ user, isAuthenticated: !!user, login, logout }),
+    () => ({ user, isAuthenticated: !!user, login, register, emailExists, logout }),
     [user]
   )
 

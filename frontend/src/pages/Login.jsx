@@ -90,9 +90,12 @@ export default function Login() {
             />
             Remember me
           </label>
-          <a href="#" className="text-body-sm font-medium text-primary hover:underline">
+          <Link
+            to="/forgot-password"
+            className="text-body-sm font-medium text-primary hover:underline"
+          >
             Forgot password?
-          </a>
+          </Link>
         </div>
 
         <button

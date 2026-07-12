@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const CARDS = [
   {
     label: 'Overall ESG',
@@ -7,6 +9,7 @@ const CARDS = [
     badgeClass: 'bg-primary/10 text-primary',
     type: 'bar',
     barWidth: 'w-[81%]',
+    to: '/reports',
   },
   {
     label: 'Environmental',
@@ -17,6 +20,7 @@ const CARDS = [
     type: 'spark',
     path: 'M0,35 Q25,10 50,25 T100,5',
     stroke: '#10B981',
+    to: '/environmental',
   },
   {
     label: 'Social',
@@ -27,6 +31,7 @@ const CARDS = [
     type: 'spark',
     path: 'M0,20 L20,20 L40,25 L60,15 L80,20 L100,20',
     stroke: '#005ac2',
+    to: '/social',
   },
   {
     label: 'Governance',
@@ -37,6 +42,7 @@ const CARDS = [
     type: 'spark',
     path: 'M0,38 L15,30 L30,35 L50,15 L75,10 L100,2',
     stroke: '#23342c',
+    to: '/governance',
   },
 ]
 
@@ -54,7 +60,11 @@ export default function ScoreCards() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-card-gap mb-8">
       {CARDS.map((card) => (
-        <div key={card.label} className="glass-card p-6 rounded-xl relative overflow-hidden">
+        <Link
+          key={card.label}
+          to={card.to}
+          className="glass-card p-6 rounded-xl relative overflow-hidden block focus:outline-none focus:ring-2 focus:ring-primary/30"
+        >
           <div className="flex justify-between items-start mb-4">
             <span
               className={`px-3 py-1 rounded-full text-label-md uppercase tracking-wider ${card.badgeClass}`}
@@ -83,7 +93,7 @@ export default function ScoreCards() {
               <path d={card.path} fill="none" stroke={card.stroke} strokeWidth="2" />
             </svg>
           )}
-        </div>
+        </Link>
       ))}
     </div>
   )

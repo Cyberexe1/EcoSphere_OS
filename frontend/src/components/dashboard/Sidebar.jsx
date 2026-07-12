@@ -76,13 +76,17 @@ export default function Sidebar({ open, onClose }) {
           })}
         </nav>
 
-        <button className="mt-4 w-full py-3 bg-primary text-white rounded-xl text-label-md flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors">
+        <Link
+          to="/reports"
+          onClick={onClose}
+          className="mt-4 w-full py-3 bg-primary text-white rounded-xl text-label-md flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors"
+        >
           <Icon name="add" className="text-sm" /> New Report
-        </button>
+        </Link>
 
         <div className="mt-auto pt-6 border-t border-white/10 flex flex-col gap-1">
           <a
-            href="#"
+            href="mailto:support@ecosphere.com"
             className="flex items-center gap-3 px-3 py-2 text-surface-variant hover:text-white text-label-md"
           >
             <Icon name="help" /> Support

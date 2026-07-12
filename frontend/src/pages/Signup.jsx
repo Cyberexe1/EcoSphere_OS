@@ -4,6 +4,8 @@ import AuthLayout from '../components/AuthLayout.jsx'
 import AuthField from '../components/AuthField.jsx'
 import SocialButtons from '../components/SocialButtons.jsx'
 import Icon from '../components/Icon.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
+import { useToast } from '../components/ui/Toast.jsx'
 
 const STRENGTH = [
   { label: 'Weak', color: 'bg-error', text: 'text-error' },
@@ -23,20 +25,50 @@ function scorePassword(pw) {
 
 export default function Signup() {
   const navigate = useNavigate()
-  const [form, setForm] = useState({ org: '', name: '', email: '', password: '' })
+  const { register } = useAuth()
+  const toast = useToast()
+  const [form, setForm] = useState({ org: '', name: '', email: '', password: '', confirm: '' })
   const [showPassword, setShowPassword] = useState(false)
   const [agreed, setAgreed] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
+  const handleChange = (e) => {
+    setError('')
+    setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
+  }
 
   const score = scorePassword(form.password)
   const strength = score > 0 ? STRENGTH[score - 1] : null
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!agreed) return
-    // TODO: wire up to auth API. For now, go to login.
-    navigate('/login')
+    if (!form.name.trim() || !form.email.trim() || !form.password) {
+      setError('Please fill in all required fields.')
+      return
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      setError('Please enter a valid email address.')
+      return
+    }
+    if (score < 2) {
+      setError('Please choose a stronger password (min 8 chars, mixed case, a number).')
+      return
+    }
+    if (form.password !== form.confirm) {
+      setError('Passwords do not match.')
+      return
+    }
+    if (!agreed) {
+      setError('You must accept the Terms of Service to continue.')
+      return
+    }
+    const result = register(form)
+    if (result.ok) {
+      toast('Account created. Please log in.', 'success')
+      navigate('/login')
+    } else {
+      setError(result.error)
+    }
   }
 
   return (
@@ -49,6 +81,13 @@ export default function Signup() {
           Start managing your ESG program in minutes.
         </p>
       </div>
+
+      {error && (
+        <div className="mb-5 flex items-start gap-2 rounded-xl border border-error/30 bg-error-container/60 px-4 py-3 text-body-sm text-on-error-container">
+          <Icon name="error" className="text-[20px] text-error" />
+          <span>{error}</span>
+        </div>
+      )}
 
       <form className="space-y-5" onSubmit={handleSubmit}>
         <AuthField
@@ -126,6 +165,17 @@ export default function Signup() {
             </div>
           )}
         </div>
+
+        <AuthField
+          id="confirm"
+          label="Confirm password"
+          type={showPassword ? 'text' : 'password'}
+          placeholder="Re-enter your password"
+          icon="lock"
+          value={form.confirm}
+          onChange={handleChange}
+          autoComplete="new-password"
+        />
 
         <label className="flex items-start gap-2 text-body-sm text-on-surface-variant cursor-pointer">
           <input
