@@ -13,7 +13,11 @@ RUN npm run build
 FROM node:20-alpine AS production
 WORKDIR /app
 
-# Install backend dependencies
+# Copy Prisma schema first (needed by postinstall)
+COPY backend/prisma/ ./prisma/
+COPY backend/prisma.config.ts ./
+
+# Install backend dependencies (postinstall runs prisma generate)
 COPY backend/package.json backend/package-lock.json ./
 RUN npm ci --omit=dev
 
