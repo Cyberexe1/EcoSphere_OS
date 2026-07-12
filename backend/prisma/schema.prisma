@@ -1,0 +1,223 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Authentication & Users ──────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         String   @default("ESG Analyst")
+  avatarUrl    String?  @map("avatar_url")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  refreshTokens RefreshToken[]
+  auditLogs     AuditLog[]
+  carbonEntries CarbonEntry[]
+  csrParticipations CSRParticipation[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String   @map("user_id")
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+  @@map("refresh_tokens")
+}
+
+// ─── Organizations & Settings ────────────────────────────────────────────────
+
+model Organization {
+  id          String   @id @default(cuid())
+  name        String
+  icon        String   @default("apartment")
+  users       Int      @default(0)
+  role        String   @default("Standard User")
+  permissions String   @default("Read Only")
+  status      String   @default("Active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  departments Department[]
+
+  @@map("organizations")
+}
+
+model AppConfig {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("app_config")
+}
+
+// ─── Environmental Module ────────────────────────────────────────────────────
+
+model Department {
+  id             String   @id @default(cuid())
+  name           String
+  organizationId String?  @map("organization_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  organization  Organization? @relation(fields: [organizationId], references: [id])
+  carbonEntries CarbonEntry[]
+
+  @@map("departments")
+}
+
+model CarbonEntry {
+  id           String   @id @default(cuid())
+  source       String
+  scope        Int      // 1, 2, or 3
+  target       Float    // target emissions (tCO2e)
+  current      Float    // current emissions (tCO2e)
+  status       String   @default("On Track") // On Track, At Risk, Exceeded
+  departmentId String   @map("department_id")
+  createdById  String?  @map("created_by_id")
+  period       String?  // e.g. "2024-Q1"
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  department Department @relation(fields: [departmentId], references: [id])
+  createdBy  User?      @relation(fields: [createdById], references: [id])
+
+  @@index([departmentId])
+  @@index([scope])
+  @@map("carbon_entries")
+}
+
+// ─── Social Module ───────────────────────────────────────────────────────────
+
+model CSRProgram {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  category      String   @default("Community")
+  status        String   @default("Active") // Active, Completed, Planned
+  startDate     DateTime? @map("start_date")
+  endDate       DateTime? @map("end_date")
+  targetHours   Int      @default(0) @map("target_hours")
+  currentHours  Int      @default(0) @map("current_hours")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  participations CSRParticipation[]
+
+  @@map("csr_programs")
+}
+
+model CSRParticipation {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  programId  String   @map("program_id")
+  status     String   @default("Registered") // Registered, Approved, Completed
+  hours      Int      @default(0)
+  points     Int      @default(0)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user    User       @relation(fields: [userId], references: [id])
+  program CSRProgram @relation(fields: [programId], references: [id])
+
+  @@unique([userId, programId])
+  @@map("csr_participations")
+}
+
+// ─── Governance Module ───────────────────────────────────────────────────────
+
+model Policy {
+  id         String   @id @default(cuid())
+  name       String
+  category   String   // Ethics, Eco, Social, Compliance
+  version    String   @default("v1.0")
+  status     String   @default("Draft") // Draft, Active, Reviewing, Archived
+  progress   Int      @default(0) // acknowledgement progress %
+  content    String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("policies")
+}
+
+model Audit {
+  id          String   @id @default(cuid())
+  title       String
+  type        String   // Internal, External, Regulatory
+  status      String   @default("Scheduled") // Scheduled, In Progress, Completed
+  scheduledAt DateTime @map("scheduled_at")
+  completedAt DateTime? @map("completed_at")
+  findings    String?
+  score       Int?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("audits")
+}
+
+// ─── Gamification Module ─────────────────────────────────────────────────────
+
+model Challenge {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  status      String   @default("Upcoming") // Upcoming, Active, Completed
+  percent     Int      @default(0)
+  startDate   DateTime? @map("start_date")
+  endDate     DateTime? @map("end_date")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("challenges")
+}
+
+model LeaderboardEntry {
+  id     String @id @default(cuid())
+  team   String
+  points Int    @default(0)
+  rank   Int    @default(0)
+
+  @@map("leaderboard")
+}
+
+// ─── Reports ─────────────────────────────────────────────────────────────────
+
+model Report {
+  id          String   @id @default(cuid())
+  title       String
+  type        String   // Environmental, Social, Governance, ESG Summary
+  format      String   @default("PDF")
+  status      String   @default("Completed")
+  generatedAt DateTime @default(now()) @map("generated_at")
+
+  @@map("reports")
+}
+
+// ─── Audit Log ───────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String
+  details   String?
+  userId    String?  @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
