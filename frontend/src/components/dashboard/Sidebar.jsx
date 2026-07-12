@@ -41,7 +41,7 @@ export default function Sidebar({ open, onClose }) {
           <p className="text-label-md text-surface-variant opacity-70">ESG Management</p>
         </div>
 
-        <nav className="flex-1 flex flex-col gap-1 overflow-y-auto">
+        <nav className="flex-1 flex flex-col gap-1 overflow-y-auto hide-scrollbar">
           {NAV_ITEMS.map((item) => {
             const active = item.to && location.pathname === item.to
             const className = `flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 ${
