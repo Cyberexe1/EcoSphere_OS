@@ -3,6 +3,8 @@ import cors from 'cors'
 import { config } from './config/env.js'
 import authRoutes from './routes/auth.js'
 import esgRoutes from './routes/esg.js'
+import reportsRoutes from './routes/reports.js'
+import settingsRoutes from './routes/settings.js'
 
 const app = express()
 
@@ -22,6 +24,8 @@ app.get('/api/health', (req, res) => {
 // Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/esg', esgRoutes)
+app.use('/api/reports', reportsRoutes)
+app.use('/api/settings', settingsRoutes)
 
 // 404 handler
 app.use((req, res) => {

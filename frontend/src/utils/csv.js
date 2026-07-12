@@ -1,24 +1,32 @@
-// Convert an array of row objects to a CSV string and trigger a download.
+/**
+ * Export data to a downloadable CSV file.
+ * @param {string} filename - Name without extension
+ * @param {Array<object>} rows - Data rows
+ * @param {Array<{key:string, label:string}>} columns - Column definitions
+ */
 export function exportToCsv(filename, rows, columns) {
-  if (!rows?.length) return
+  if (!rows?.length || !columns?.length) return
 
-  const cols = columns ?? Object.keys(rows[0]).map((key) => ({ key, label: key }))
-  const escape = (val) => {
-    const s = val == null ? '' : String(val)
-    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s
-  }
-
-  const header = cols.map((c) => escape(c.label)).join(',')
+  const header = columns.map((c) => `"${c.label}"`).join(',')
   const body = rows
-    .map((row) => cols.map((c) => escape(row[c.key])).join(','))
+    .map((row) =>
+      columns
+        .map((c) => {
+          const val = String(row[c.key] ?? '').replace(/"/g, '""')
+          return `"${val}"`
+        })
+        .join(',')
+    )
     .join('\n')
-  const csv = `${header}\n${body}`
 
+  const csv = `${header}\n${body}`
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
   const url = URL.createObjectURL(blob)
+
   const link = document.createElement('a')
   link.href = url
-  link.download = filename.endsWith('.csv') ? filename : `${filename}.csv`
+  link.download = `${filename}-${new Date().toISOString().slice(0, 10)}.csv`
+  link.style.display = 'none'
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
