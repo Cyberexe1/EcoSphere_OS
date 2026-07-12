@@ -9,6 +9,8 @@ import Environmental from './pages/Environmental.jsx'
 import Gamification from './pages/Gamification.jsx'
 import Reports from './pages/Reports.jsx'
 import Governance from './pages/Governance.jsx'
+import Social from './pages/Social.jsx'
+import Settings from './pages/Settings.jsx'
 
 export default function App() {
   return (
@@ -55,6 +57,22 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Governance />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/social"
+            element={
+              <ProtectedRoute>
+                <Social />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
               </ProtectedRoute>
             }
           />

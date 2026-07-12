@@ -5,11 +5,11 @@ import { useAuth } from '../../context/AuthContext.jsx'
 const NAV_ITEMS = [
   { icon: 'dashboard', label: 'Dashboard', to: '/dashboard' },
   { icon: 'eco', label: 'Environmental', to: '/environmental' },
-  { icon: 'group', label: 'Social', to: null },
+  { icon: 'group', label: 'Social', to: '/social' },
   { icon: 'gavel', label: 'Governance', to: '/governance' },
   { icon: 'military_tech', label: 'Gamification', to: '/gamification' },
   { icon: 'description', label: 'Reports', to: '/reports' },
-  { icon: 'settings', label: 'Settings', to: null },
+  { icon: 'settings', label: 'Settings', to: '/settings' },
 ]
 
 export default function Sidebar({ open, onClose }) {
