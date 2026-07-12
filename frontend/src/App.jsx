@@ -7,6 +7,8 @@ import Signup from './pages/Signup.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Environmental from './pages/Environmental.jsx'
 import Gamification from './pages/Gamification.jsx'
+import Reports from './pages/Reports.jsx'
+import Governance from './pages/Governance.jsx'
 
 export default function App() {
   return (
@@ -37,6 +39,22 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Gamification />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <Reports />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/governance"
+            element={
+              <ProtectedRoute>
+                <Governance />
               </ProtectedRoute>
             }
           />

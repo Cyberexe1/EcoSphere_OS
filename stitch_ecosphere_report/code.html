@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reports: Analytics &amp; Custom Builder | EcoSphere</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F6F9F7;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #eafef1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #bbcabf;
+            border-radius: 10px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-container": "#00422b",
+                      "surface": "#eafef1",
+                      "error-container": "#ffdad6",
+                      "outline": "#6c7a71",
+                      "surface-bright": "#eafef1",
+                      "primary-fixed": "#6ffbbe",
+                      "tertiary-container": "#71a1ff",
+                      "on-secondary-fixed": "#002116",
+                      "on-secondary": "#ffffff",
+                      "on-background": "#0e1f17",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-container": "#a6f2d1",
+                      "primary-container": "#10b981",
+                      "surface-container-low": "#e4f9ec",
+                      "background": "#eafef1",
+                      "on-tertiary-container": "#00367a",
+                      "on-primary-fixed-variant": "#005236",
+                      "surface-tint": "#006c49",
+                      "primary": "#006c49",
+                      "inverse-primary": "#4edea3",
+                      "surface-variant": "#d3e7db",
+                      "inverse-surface": "#23342c",
+                      "on-tertiary-fixed": "#001a42",
+                      "on-tertiary-fixed-variant": "#004395",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-container": "#237157",
+                      "on-primary-fixed": "#002113",
+                      "tertiary-fixed-dim": "#adc6ff",
+                      "surface-container-highest": "#d3e7db",
+                      "surface-container-high": "#d9ede0",
+                      "outline-variant": "#bbcabf",
+                      "error": "#ba1a1a",
+                      "tertiary": "#005ac2",
+                      "secondary": "#1b6b51",
+                      "on-surface": "#0e1f17",
+                      "secondary-fixed-dim": "#8bd6b6",
+                      "on-primary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "secondary-fixed": "#a6f2d1",
+                      "on-surface-variant": "#3c4a42",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed": "#d8e2ff",
+                      "on-secondary-fixed-variant": "#00513b",
+                      "inverse-on-surface": "#e1f6e9",
+                      "surface-dim": "#cbdfd2",
+                      "surface-container": "#def3e6",
+                      "primary-fixed-dim": "#4edea3"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "inline-sm": "8px",
+                      "gutter": "24px",
+                      "unit": "8px",
+                      "container-padding": "32px",
+                      "form-stack": "16px",
+                      "card-gap": "24px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "headline-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface-bright text-on-surface custom-scrollbar selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-gutter h-16 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md font-bold text-primary">EcoSphere</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center bg-surface-container-low rounded-full px-4 py-1.5 border border-outline-variant">
+<span class="material-symbols-outlined text-outline text-[20px] mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-64" placeholder="Search data points..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-variant/50 rounded-full transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-variant/50 rounded-full transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] bg-inverse-surface flex flex-col py-6 px-4 z-40">
+<div class="mb-10 px-2">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[20px]" data-icon="eco" style="font-variation-settings: 'FILL' 1;">eco</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary-fixed leading-none">EcoSphere</h2>
+<p class="font-label-sm text-label-sm text-surface-variant mt-1">ESG Management</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-surface-variant hover:bg-primary/20 hover:text-white rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-surface-variant hover:bg-primary/20 hover:text-white rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="eco">eco</span>
+<span class="font-label-md text-label-md">Environmental</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-surface-variant hover:bg-primary/20 hover:text-white rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md text-label-md">Social</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-surface-variant hover:bg-primary/20 hover:text-white rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="font-label-md text-label-md">Governance</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-surface-variant hover:bg-primary/20 hover:text-white rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="military_tech">military_tech</span>
+<span class="font-label-md text-label-md">Gamification</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary-container text-on-primary-container rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-md text-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-surface-variant hover:bg-primary/20 hover:text-white rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-outline/20 space-y-1">
+<button class="w-full mb-4 bg-primary text-white font-label-md text-label-md py-3 rounded-xl hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+                New Report
+            </button>
+<a class="flex items-center gap-3 px-3 py-2 text-surface-variant hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-surface-variant hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+<span class="font-label-md text-label-md">Dark Mode</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-[260px] pt-16 min-h-screen">
+<div class="max-w-[1440px] mx-auto p-container-padding">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-surface">Reports &amp; Analytics</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-2 max-w-2xl">
+                        Comprehensive insights for corporate sustainability reporting. Generate automated ESG disclosures or build custom analytical views.
+                    </p>
+</div>
+<div class="flex gap-card-gap">
+<div class="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-outline-variant shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Sync Status: Active</span>
+</div>
+</div>
+</div>
+<!-- Report Type Cards Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-card-gap mb-12">
+<!-- Card 1 -->
+<div class="bg-white border border-outline-variant p-6 rounded-xl hover:shadow-lg transition-shadow group">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[#14B8A6]" data-icon="forest">forest</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-2 text-on-surface">Environmental</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 h-12 line-clamp-2">Carbon footprint, energy efficiency metrics, and water usage analysis across all facilities.</p>
+<button class="w-full py-2 px-4 border border-primary text-primary font-label-md text-label-md rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                        Generate <span class="material-symbols-outlined text-[16px]" data-icon="auto_awesome">auto_awesome</span>
+</button>
+</div>
+<!-- Card 2 -->
+<div class="bg-white border border-outline-variant p-6 rounded-xl hover:shadow-lg transition-shadow group">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[#14B8A6]" data-icon="diversity_3">diversity_3</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-2 text-on-surface">Social</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 h-12 line-clamp-2">Workforce diversity, employee turnover, and community impact programs and engagement.</p>
+<button class="w-full py-2 px-4 border border-primary text-primary font-label-md text-label-md rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                        Generate <span class="material-symbols-outlined text-[16px]" data-icon="auto_awesome">auto_awesome</span>
+</button>
+</div>
+<!-- Card 3 -->
+<div class="bg-white border border-outline-variant p-6 rounded-xl hover:shadow-lg transition-shadow group">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[#14B8A6]" data-icon="account_balance">account_balance</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-2 text-on-surface">Governance</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 h-12 line-clamp-2">Board structure, executive compensation, and compliance tracking with global regulations.</p>
+<button class="w-full py-2 px-4 border border-primary text-primary font-label-md text-label-md rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                        Generate <span class="material-symbols-outlined text-[16px]" data-icon="auto_awesome">auto_awesome</span>
+</button>
+</div>
+<!-- Card 4 -->
+<div class="bg-white border border-outline-variant p-6 rounded-xl hover:shadow-lg transition-shadow group">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-[#14B8A6]" data-icon="analytics">analytics</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-2 text-on-surface">ESG Summary</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 h-12 line-clamp-2">A holistic overview combining all pillars into a single stakeholder-ready executive summary.</p>
+<button class="w-full py-2 px-4 border border-primary text-primary font-label-md text-label-md rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+                        Generate <span class="material-symbols-outlined text-[16px]" data-icon="auto_awesome">auto_awesome</span>
+</button>
+</div>
+</section>
+<!-- Custom Report Builder Section -->
+<section class="bg-white border border-outline-variant rounded-2xl overflow-hidden">
+<div class="p-container-padding border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="construction">construction</span>
+<h2 class="font-headline-md text-headline-md">Custom Report Builder</h2>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 text-on-surface-variant font-label-md text-label-md flex items-center gap-2 border border-outline-variant rounded-lg hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="picture_as_pdf">picture_as_pdf</span> Export PDF
+                        </button>
+<button class="px-4 py-2 text-on-surface-variant font-label-md text-label-md flex items-center gap-2 border border-outline-variant rounded-lg hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="table_chart">table_chart</span> Excel
+                        </button>
+<button class="px-4 py-2 text-on-surface-variant font-label-md text-label-md flex items-center gap-2 border border-outline-variant rounded-lg hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="csv">csv</span> CSV
+                        </button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12">
+<!-- Form Controls Sidebar -->
+<div class="lg:col-span-3 p-8 border-r border-outline-variant bg-surface-container-low/30 space-y-6">
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2 uppercase tracking-wide">Data Source</label>
+<select class="w-full rounded-xl border-outline-variant text-body-sm font-body-sm focus:ring-primary focus:border-primary">
+<option>Global Operations</option>
+<option>North American Division</option>
+<option>European Supply Chain</option>
+<option>Asia-Pacific Facilities</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2 uppercase tracking-wide">Date Range</label>
+<select class="w-full rounded-xl border-outline-variant text-body-sm font-body-sm focus:ring-primary focus:border-primary">
+<option>Last 12 Months</option>
+<option>Year to Date (YTD)</option>
+<option>Previous Fiscal Year</option>
+<option>Custom Range</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2 uppercase tracking-wide">Primary Metric</label>
+<div class="space-y-2 mt-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-sm text-on-surface group-hover:text-primary transition-colors">CO2e Emissions</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-sm text-on-surface group-hover:text-primary transition-colors">Renewable Energy %</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-sm text-on-surface group-hover:text-primary transition-colors">Water Recycled</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-sm text-on-surface group-hover:text-primary transition-colors">Waste to Landfill</span>
+</label>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2 uppercase tracking-wide">Grouping</label>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1.5 bg-primary-container text-on-primary-container font-label-sm text-label-sm rounded-full">By Month</button>
+<button class="px-3 py-1.5 bg-surface-container text-on-surface-variant font-label-sm text-label-sm rounded-full hover:bg-outline-variant transition-colors">By Site</button>
+<button class="px-3 py-1.5 bg-surface-container text-on-surface-variant font-label-sm text-label-sm rounded-full hover:bg-outline-variant transition-colors">By Pillar</button>
+</div>
+</div>
+<div class="pt-6">
+<button class="w-full bg-primary text-white font-label-md text-label-md py-3 rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+                                Update Preview
+                            </button>
+</div>
+</div>
+<!-- Preview Area -->
+<div class="lg:col-span-9 p-8 bg-white min-h-[600px]">
+<div class="flex items-center justify-between mb-8">
+<div class="space-y-1">
+<h3 class="font-headline-sm text-headline-sm">Operational Sustainability Preview</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Data synthesized from 24 global facilities • Last updated 2 hours ago</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary" data-icon="zoom_in">zoom_in</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary" data-icon="fullscreen">fullscreen</span>
+</div>
+</div>
+<!-- Mock Chart Area -->
+<div class="w-full h-80 relative bg-surface-container-low/20 rounded-xl border border-dashed border-outline-variant flex items-end justify-between px-12 py-8 overflow-hidden">
+
+<!-- Simple SVG Visualization for Charts -->
+<div class="absolute inset-0 p-8 flex items-end justify-between">
+<div class="w-16 bg-primary-container rounded-t-lg transition-all duration-700 h-[60%] hover:h-[65%]"></div>
+<div class="w-16 bg-primary rounded-t-lg transition-all duration-700 h-[40%] hover:h-[45%]"></div>
+<div class="w-16 bg-primary-container rounded-t-lg transition-all duration-700 h-[85%] hover:h-[90%]"></div>
+<div class="w-16 bg-primary rounded-t-lg transition-all duration-700 h-[55%] hover:h-[60%]"></div>
+<div class="w-16 bg-primary-container rounded-t-lg transition-all duration-700 h-[70%] hover:h-[75%]"></div>
+<div class="w-16 bg-primary rounded-t-lg transition-all duration-700 h-[95%] hover:h-[100%]"></div>
+<div class="w-16 bg-primary-container rounded-t-lg transition-all duration-700 h-[30%] hover:h-[35%]"></div>
+<div class="w-16 bg-primary rounded-t-lg transition-all duration-700 h-[50%] hover:h-[55%]"></div>
+</div>
+<!-- Grid lines -->
+<div class="absolute inset-0 flex flex-col justify-between p-8 pointer-events-none">
+<div class="border-t border-outline-variant/30 w-full"></div>
+<div class="border-t border-outline-variant/30 w-full"></div>
+<div class="border-t border-outline-variant/30 w-full"></div>
+<div class="border-t border-outline-variant/30 w-full"></div>
+</div>
+</div>
+<!-- Data Table Preview -->
+<div class="mt-8 overflow-hidden border border-outline-variant rounded-xl">
+<table class="w-full text-left border-collapse">
+<thead class="bg-on-surface/5 font-label-md text-label-md text-on-surface-variant">
+<tr>
+<th class="px-6 py-4">Facility Name</th>
+<th class="px-6 py-4">CO2e Emissions (MT)</th>
+<th class="px-6 py-4">Energy Usage (MWh)</th>
+<th class="px-6 py-4">Status</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<tr class="border-t border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-medium">Oslo Central Hub</td>
+<td class="px-6 py-4">1,240.5</td>
+<td class="px-6 py-4">3,890</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-[#d1fae5] text-[#065f46] rounded-full text-[11px] font-semibold">OPTIMIZED</span>
+</td>
+</tr>
+<tr class="border-t border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-medium">Berlin Production Plant B</td>
+<td class="px-6 py-4">4,560.2</td>
+<td class="px-6 py-4">12,100</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-[#fef3c7] text-[#92400e] rounded-full text-[11px] font-semibold">ATTENTION</span>
+</td>
+</tr>
+<tr class="border-t border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-medium">Singapore Logistics Center</td>
+<td class="px-6 py-4">890.4</td>
+<td class="px-6 py-4">2,150</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-[#d1fae5] text-[#065f46] rounded-full text-[11px] font-semibold">OPTIMIZED</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer -->
+<footer class="w-full py-12 px-container-padding grid grid-cols-1 md:grid-cols-4 gap-card-gap bg-inverse-surface mt-20">
+<div class="col-span-1 md:col-span-1">
+<h3 class="font-headline-sm text-headline-sm text-primary-fixed-dim mb-4">EcoSphere</h3>
+<p class="font-body-sm text-body-sm text-surface-variant">© 2024 EcoSphere ESG Management. Data Transparency for a Greener Future.</p>
+</div>
+<div class="space-y-4">
+<h4 class="font-label-md text-label-md text-white uppercase tracking-widest">Platform</h4>
+<nav class="flex flex-col gap-2">
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-primary-fixed transition-colors" href="#">Features</a>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-primary-fixed transition-colors" href="#">Modules</a>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-primary-fixed transition-colors" href="#">Pricing</a>
+</nav>
+</div>
+<div class="space-y-4">
+<h4 class="font-label-md text-label-md text-white uppercase tracking-widest">Legal</h4>
+<nav class="flex flex-col gap-2">
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-primary-fixed transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-surface-variant hover:text-primary-fixed transition-colors" href="#">Terms of Service</a>
+</nav>
+</div>
+<div class="space-y-4">
+<h4 class="font-label-md text-label-md text-white uppercase tracking-widest">Connect</h4>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-surface-variant hover:border-primary-fixed hover:text-primary-fixed cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="public">public</span>
+</div>
+<div class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-surface-variant hover:border-primary-fixed hover:text-primary-fixed cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="alternate_email">alternate_email</span>
+</div>
+</div>
+</div>
+</footer>
+</main>
+<script>
+        // Simple Interaction logic
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const ripple = document.createElement('div');
+                ripple.className = 'absolute bg-white/20 rounded-full w-2 h-2 pointer-events-none transform -translate-x-1/2 -translate-y-1/2 animate-ping';
+                ripple.style.left = e.clientX + 'px';
+                ripple.style.top = e.clientY + 'px';
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    </script>
+</body></html>

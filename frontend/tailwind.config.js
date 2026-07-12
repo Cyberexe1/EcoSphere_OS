@@ -54,6 +54,7 @@ export default {
         'error-container': '#ffdad6',
         'accent-orange': '#F97316',
         'on-accent-orange': '#FFFFFF',
+        'gov-accent': '#8B5CF6',
       },
       borderRadius: {
         DEFAULT: '0.125rem',
