@@ -4,18 +4,33 @@ import AuthLayout from '../components/AuthLayout.jsx'
 import AuthField from '../components/AuthField.jsx'
 import SocialButtons from '../components/SocialButtons.jsx'
 import Icon from '../components/Icon.jsx'
+import { useAuth, DEMO_CREDENTIALS } from '../context/AuthContext.jsx'
 
 export default function Login() {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [form, setForm] = useState({ email: '', password: '' })
   const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
+  const handleChange = (e) => {
+    setError('')
+    setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // TODO: wire up to auth API. For now, go to the dashboard/home.
-    navigate('/')
+    const result = login(form.email, form.password)
+    if (result.ok) {
+      navigate('/dashboard')
+    } else {
+      setError(result.error)
+    }
+  }
+
+  const fillDemo = () => {
+    setError('')
+    setForm({ email: DEMO_CREDENTIALS.email, password: DEMO_CREDENTIALS.password })
   }
 
   return (
@@ -26,6 +41,13 @@ export default function Login() {
           Log in to your EcoSphere workspace.
         </p>
       </div>
+
+      {error && (
+        <div className="mb-5 flex items-start gap-2 rounded-xl border border-error/30 bg-error-container/60 px-4 py-3 text-body-sm text-on-error-container">
+          <Icon name="error" className="text-[20px] text-error" />
+          <span>{error}</span>
+        </div>
+      )}
 
       <form className="space-y-5" onSubmit={handleSubmit}>
         <AuthField
@@ -80,6 +102,28 @@ export default function Login() {
           Log in
         </button>
       </form>
+
+      <div className="mt-6 rounded-xl border border-dashed border-primary/40 bg-primary/5 px-4 py-3">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 text-label-md text-primary">
+            <Icon name="key" className="text-[18px]" />
+            Demo account
+          </div>
+          <button
+            type="button"
+            onClick={fillDemo}
+            className="text-label-md text-primary font-semibold hover:underline"
+          >
+            Autofill
+          </button>
+        </div>
+        <p className="text-body-sm text-on-surface-variant mt-2">
+          Email: <span className="font-semibold text-on-surface">{DEMO_CREDENTIALS.email}</span>
+          <br />
+          Password:{' '}
+          <span className="font-semibold text-on-surface">{DEMO_CREDENTIALS.password}</span>
+        </p>
+      </div>
 
       <SocialButtons />
 
