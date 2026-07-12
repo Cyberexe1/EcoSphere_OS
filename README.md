@@ -104,39 +104,56 @@ while logged out redirects to `/login`.
 
 Base URL: `http://localhost:4000`
 
-| Method | Endpoint               | Auth   | Description                          |
-| ------ | ---------------------- | ------ | ------------------------------------ |
-| GET    | `/api/health`          | Public | Service health check                 |
-| POST   | `/api/auth/login`      | Public | Log in, returns `{ token, user }`    |
-| GET    | `/api/auth/me`         | Bearer | Current authenticated user           |
-| GET    | `/api/esg/overview`    | Bearer | Executive overview scores + activity |
-| GET    | `/api/esg/environmental` | Bearer | Emissions summary + entries        |
-| GET    | `/api/esg/social`      | Bearer | CSR KPIs + participation             |
-| GET    | `/api/esg/governance`  | Bearer | Policies + governance KPIs           |
-| GET    | `/api/esg/gamification`| Bearer | Challenges + leaderboard             |
+| Method | Endpoint                     | Auth   | Description                                        |
+| ------ | ---------------------------- | ------ | -------------------------------------------------- |
+| GET    | `/api/health`                | Public | Service health check                               |
+| POST   | `/api/auth/register`         | Public | Create account → `{ user, accessToken, refreshToken }` |
+| POST   | `/api/auth/login`            | Public | Log in → `{ user, accessToken, refreshToken }`     |
+| POST   | `/api/auth/refresh`          | Public | Rotate refresh token → new `accessToken`           |
+| POST   | `/api/auth/logout`           | Public | Revoke a refresh token                             |
+| GET    | `/api/auth/me`               | Bearer | Current authenticated user                         |
+| POST   | `/api/auth/change-password`  | Bearer | Change password (revokes all sessions)             |
+| GET    | `/api/esg/overview`          | Bearer | Executive overview scores + activity               |
+| GET    | `/api/esg/environmental`     | Bearer | Emissions summary + entries                        |
+| GET    | `/api/esg/social`            | Bearer | CSR KPIs + participation                           |
+| GET    | `/api/esg/governance`        | Bearer | Policies + governance KPIs                         |
+| GET    | `/api/esg/gamification`      | Bearer | Challenges + leaderboard                           |
 
-Protected routes expect an `Authorization: Bearer <token>` header. Example:
+**Auth model (no database — in-memory):**
+- **Access token** — short-lived JWT (15m), sent as `Authorization: Bearer <accessToken>`.
+- **Refresh token** — long-lived (7d), opaque, stored server-side so it can be
+  **revoked** on logout / password change. Rotated on every `/refresh` (old token is
+  invalidated).
+- Passwords are **bcrypt-hashed**; `/register` and `/login` are **rate-limited**;
+  registration input is validated (email format + password strength).
 
 ```bash
-# Log in
+# Log in → capture accessToken + refreshToken
 curl -X POST http://localhost:4000/api/auth/login \
   -H "Content-Type: application/json" \
   -d "{\"email\":\"demo@ecosphere.com\",\"password\":\"EcoSphere@2024\"}"
 
-# Use the returned token
-curl http://localhost:4000/api/esg/overview -H "Authorization: Bearer <token>"
+# Call a protected route
+curl http://localhost:4000/api/esg/overview -H "Authorization: Bearer <accessToken>"
+
+# Refresh when the access token expires
+curl -X POST http://localhost:4000/api/auth/refresh \
+  -H "Content-Type: application/json" \
+  -d "{\"refreshToken\":\"<refreshToken>\"}"
 ```
 
 ### Environment variables (`backend/.env`)
 
-| Variable         | Default                     | Description                          |
-| ---------------- | --------------------------- | ------------------------------------ |
-| `PORT`           | `4000`                      | API port                             |
-| `CLIENT_ORIGIN`  | `http://localhost:5173`     | Allowed CORS origin(s), comma-sep    |
-| `JWT_SECRET`     | (insecure dev default)      | Secret for signing JWTs — set this   |
-| `JWT_EXPIRES_IN` | `1d`                        | Token lifetime                       |
-| `DEMO_EMAIL`     | `demo@ecosphere.com`        | Seeded demo user email               |
-| `DEMO_PASSWORD`  | `EcoSphere@2024`            | Seeded demo user password            |
+| Variable                  | Default                  | Description                             |
+| ------------------------- | ------------------------ | --------------------------------------- |
+| `PORT`                    | `4000`                   | API port                                |
+| `CLIENT_ORIGIN`           | `http://localhost:5173`  | Allowed CORS origin(s), comma-sep       |
+| `JWT_SECRET`              | (insecure dev default)   | Secret for signing access tokens        |
+| `ACCESS_TOKEN_EXPIRES_IN` | `15m`                    | Access-token lifetime                   |
+| `REFRESH_TOKEN_TTL_DAYS`  | `7`                      | Refresh-token lifetime (days)           |
+| `BCRYPT_ROUNDS`           | `10`                     | bcrypt cost factor                      |
+| `DEMO_EMAIL`              | `demo@ecosphere.com`     | Seeded demo user email                  |
+| `DEMO_PASSWORD`           | `EcoSphere@2024`         | Seeded demo user password               |
 
 ---
 
@@ -178,12 +195,18 @@ Ecosphere/
 │  └─ src/
 │     ├─ server.js                  # App entry, CORS, routes, error handling
 │     ├─ config/env.js              # Env loading + defaults
-│     ├─ middleware/auth.js         # JWT verification (requireAuth)
+│     ├─ middleware/
+│     │  ├─ auth.js                 # Access-token verify (requireAuth, requireRole)
+│     │  └─ rateLimit.js            # In-memory rate limiter
+│     ├─ utils/
+│     │  ├─ jwt.js                  # Sign/verify access tokens
+│     │  └─ validate.js             # Email + password validation
 │     ├─ routes/
-│     │  ├─ auth.js                 # /api/auth/login, /api/auth/me
+│     │  ├─ auth.js                 # register, login, refresh, logout, me, change-password
 │     │  └─ esg.js                  # /api/esg/* (protected)
 │     └─ data/
-│        ├─ users.js                # In-memory demo user (bcrypt-hashed)
+│        ├─ users.js                # In-memory user store (bcrypt-hashed)
+│        ├─ refreshTokens.js        # In-memory refresh-token store (revocable)
 │        └─ esg.js                  # Mock ESG data
 │
 ├─ stitch_ecosphere_*/              # Original HTML / DESIGN.md design references
