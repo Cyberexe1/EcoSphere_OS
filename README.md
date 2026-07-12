@@ -369,11 +369,35 @@ aws apprunner start-deployment \
 
 ## 👥 Team
 
-| Contributor | Role |
-|-------------|------|
-| **Om Singh** | Full-Stack Development, Architecture |
-| **Utsav** | Full-Stack Development, UI/UX |
-| **Vikas Tiwari** | Frontend Development, UI Enhancements |
+<table align="center">
+<tr>
+<td align="center" width="25%">
+<h3>Utsav Singh</h3>
+<p>
+<a href="https://github.com/Utsav-Singh-35" target="_blank"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/></a>
+<a href="https://www.linkedin.com/in/utsavsingh35/" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
+<a href="https://utsavsingh35.vercel.app/" target="_blank"><img src="https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio"/></a>
+</p>
+</td>
+<td align="center" width="25%">
+<h3>Om Singh</h3>
+<p>
+<a href="https://github.com/Jayom5797" target="_blank"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/></a>
+<a href="https://www.linkedin.com/in/5797omsingh/" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
+<a href="https://om07.vercel.app/" target="_blank"><img src="https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio"/></a>
+</p>
+</td>
+<td align="center" width="25%">
+<h3>Vikas Tiwari</h3>
+<p>
+<a href="https://github.com/Cyberexe1" target="_blank"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/></a>
+<a href="https://www.linkedin.com/in/1045-vikas-tiwari/" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
+<a href="https://vikas-tiwari-portfolio.vercel.app/" target="_blank"><img src="https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio"/></a>
+</p>
+</td>
+</tr>
+</table>
+
 
 ---
 
