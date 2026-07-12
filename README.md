@@ -1,241 +1,207 @@
-# EcoSphere — ESG Management Platform
+<![CDATA[# 🌍 EcoSphere OS
 
-EcoSphere is a full-stack web application for managing an organization's **ESG**
-(Environmental, Social, Governance) program. It brings emissions tracking, CSR and
-employee engagement, compliance and governance, gamification, and reporting together
-in a single, clean dashboard — built around the idea of "Data Transparency for a
-Greener Future."
+**The Operating System for Sustainable Enterprises**
 
-This repository contains a **frontend** (React + Vite), a **backend** (Node.js +
-Express REST API), and the original design references used to build the UI.
+> An Enterprise Sustainability Intelligence Platform for tracking, managing, and optimizing ESG (Environmental, Social, Governance) operations — built for the Odoo Hackathon 2026.
+
+🔗 **Live Demo:** [https://xdysfraymp.us-east-1.awsapprunner.com](https://xdysfraymp.us-east-1.awsapprunner.com)
 
 ---
 
-## Features
+## 🚀 Quick Access
 
-- **Marketing landing page** — sticky floating header, hero, modules grid, feature
-  highlight, how-it-works, testimonials, pricing, and a multi-column footer.
-- **Authentication** — login and sign-up pages with a split brand layout, inline
-  validation, password visibility toggle, and a password-strength meter.
-- **Protected dashboard** — Executive Overview plus Environmental, Social,
-  Governance, Gamification, Reports, and Settings modules, all sharing one app shell.
-- **REST API** — Express backend with JWT auth and sample ESG data endpoints.
-- **Responsive** — adapts across mobile, tablet, and desktop (collapsible sidebar,
-  reflowing grids).
+| | |
+|---|---|
+| **URL** | https://xdysfraymp.us-east-1.awsapprunner.com |
+| **Email** | `demo@ecosphere.com` |
+| **Password** | `EcoSphere@2024` |
 
 ---
 
-## Tech Stack
+## ✨ Features
 
-**Frontend**
-- React 18 + Vite 6, React Router 7
-- Tailwind CSS 3 with a custom "Eco" design token theme
-- Inter font + Material Symbols icons
-
-**Backend**
-- Node.js + Express 4 (ES modules)
-- JWT (`jsonwebtoken`) auth, `bcryptjs` password hashing
-- `cors` + `dotenv`; nodemon for development
+- **Executive Dashboard** — Real-time ESG scores, emissions trends, and recent activity
+- **Environmental Module** — Carbon entry tracking by scope (1/2/3), department-level targets
+- **Social & CSR** — Program management, volunteer tracking, participation approvals
+- **Governance** — Policy lifecycle, audit scheduling, compliance monitoring
+- **Gamification** — Team challenges, leaderboard, sustainability sprints
+- **Reports & Analytics** — Custom report builder with CSV/PDF export
+- **Settings** — Organization management, ESG config toggles, audit trail
+- **Authentication** — JWT with refresh token rotation, bcrypt passwords, rate limiting
 
 ---
 
-## Getting Started
+## 🏗️ Architecture
 
-Prerequisites: **Node.js 18+** and npm. The frontend and backend run as two separate
-processes.
+```
+┌─────────────────────────────────────────────────────┐
+│                   AWS App Runner                     │
+│            (Auto-scaling, HTTPS, CDN)               │
+├─────────────────────────────────────────────────────┤
+│  Docker Container (Node 20 Alpine)                  │
+│  ┌───────────────┐  ┌────────────────────────────┐  │
+│  │ React SPA     │  │ Express REST API            │  │
+│  │ (Vite build)  │  │ /api/auth, /api/esg,       │  │
+│  │               │  │ /api/reports, /api/settings │  │
+│  └───────────────┘  └────────────┬───────────────┘  │
+└──────────────────────────────────┼──────────────────┘
+                                   │
+                    ┌──────────────▼──────────────┐
+                    │     AWS RDS PostgreSQL       │
+                    │     (Prisma ORM + pg)        │
+                    │     ecosphere-db.rds...      │
+                    └─────────────────────────────┘
+```
 
-### 1. Backend
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 18, Vite 6, Tailwind CSS 3, Recharts |
+| Backend | Node.js, Express 4, ES Modules |
+| ORM | Prisma 7 with `@prisma/adapter-pg` |
+| Database | PostgreSQL 16.4 (AWS RDS) |
+| Auth | JWT (access + refresh tokens), bcryptjs |
+| Deployment | Docker, AWS ECR, AWS App Runner |
+| Infrastructure | RDS, App Runner, ECR, IAM |
+
+---
+
+## 📂 Project Structure
+
+```
+EcoSphere_OS/
+├── frontend/                  # React + Vite SPA
+│   ├── src/
+│   │   ├── pages/             # Dashboard, Environmental, Social, etc.
+│   │   ├── components/        # Reusable UI + dashboard widgets
+│   │   ├── context/           # AuthContext (JWT integration)
+│   │   ├── hooks/             # useLocalStorageState, useSimulatedLoading
+│   │   └── utils/             # api.js (centralized client), csv.js
+│   └── .env                   # VITE_API_URL
+│
+├── backend/                   # Express REST API
+│   ├── prisma/
+│   │   ├── schema.prisma      # 15 models (users, carbon, policies, etc.)
+│   │   ├── migrations/        # SQL migrations
+│   │   └── seed.js            # Demo data seeder
+│   ├── src/
+│   │   ├── config/            # env.js, database.js (Prisma + pg pool)
+│   │   ├── routes/            # auth, esg, reports, settings
+│   │   ├── data/              # Data access layer (Prisma queries)
+│   │   ├── middleware/        # JWT auth, rate limiting
+│   │   └── utils/             # JWT signing, validation
+│   └── .env                   # DATABASE_URL, JWT_SECRET
+│
+├── infra/                     # AWS deployment configs
+│   ├── apprunner.json         # App Runner service definition
+│   ├── cloudformation.yaml    # Full infra template
+│   └── deploy.ps1             # Deployment scripts
+│
+├── Dockerfile                 # Multi-stage build (frontend + backend)
+└── README.md
+```
+
+---
+
+## 🖥️ Local Development
+
+**Prerequisites:** Node.js 20+, Docker (optional for full builds)
+
+### Backend
 
 ```bash
 cd backend
 npm install
-cp .env.example .env      # then edit values (Windows: copy .env.example .env)
-npm run dev               # starts the API at http://localhost:4000
+cp .env.example .env          # Set DATABASE_URL, JWT_SECRET
+npx prisma migrate dev        # Run migrations
+node prisma/seed.js           # Seed demo data
+npm run dev                   # http://localhost:4000
 ```
 
-### 2. Frontend
+### Frontend
 
 ```bash
 cd frontend
 npm install
-npm run dev               # starts the app at http://localhost:5173
+npm run dev                   # http://localhost:5173
 ```
 
-Open the frontend URL in your browser. Keep both processes running during development.
+---
 
-### Scripts
+## 🗄️ Database
 
-Frontend (`frontend/`):
+PostgreSQL 16.4 on AWS RDS with 15 tables:
 
-| Command           | Description                              |
-| ----------------- | ---------------------------------------- |
-| `npm run dev`     | Start the Vite development server        |
-| `npm run build`   | Build the production bundle into `dist/` |
-| `npm run preview` | Preview the production build locally     |
-
-Backend (`backend/`):
-
-| Command         | Description                                |
-| --------------- | ------------------------------------------ |
-| `npm run dev`   | Start the API with nodemon (auto-reload)   |
-| `npm start`     | Start the API with node                    |
+| Module | Tables |
+|--------|--------|
+| Auth | `users`, `refresh_tokens` |
+| Environmental | `departments`, `carbon_entries` |
+| Social | `csr_programs`, `csr_participations` |
+| Governance | `policies`, `audits` |
+| Gamification | `challenges`, `leaderboard` |
+| Platform | `organizations`, `app_config`, `reports`, `audit_logs` |
 
 ---
 
-## Demo Login
+## 🌐 API Endpoints
 
-Both the frontend demo auth and the backend seed use the same account:
-
-- **Email:** `demo@ecosphere.com`
-- **Password:** `EcoSphere@2024`
-
-On the login page click **Autofill** to populate these fields, then log in to reach
-the dashboard. The `/dashboard` and other module routes are protected — visiting them
-while logged out redirects to `/login`.
-
-> Note: the frontend currently authenticates against a local demo context and stores
-> state in `localStorage`. The backend provides a real JWT login flow you can wire the
-> frontend to. Replace the seeded in-memory user and the dev `JWT_SECRET` with a real
-> database and a strong secret before any production use.
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/api/health` | — | Service health check |
+| POST | `/api/auth/register` | — | Create account |
+| POST | `/api/auth/login` | — | Authenticate → tokens |
+| POST | `/api/auth/refresh` | — | Rotate refresh token |
+| POST | `/api/auth/logout` | — | Revoke refresh token |
+| GET | `/api/auth/me` | Bearer | Current user |
+| GET | `/api/esg/overview` | Bearer | Executive dashboard data |
+| GET | `/api/esg/environmental` | Bearer | Carbon entries + summary |
+| GET | `/api/esg/social` | Bearer | CSR programs + participation |
+| GET | `/api/esg/governance` | Bearer | Policies + audits |
+| GET | `/api/esg/gamification` | Bearer | Challenges + leaderboard |
+| GET | `/api/reports` | Bearer | Report types + history |
+| POST | `/api/reports/generate` | Bearer | Generate a report |
+| GET | `/api/settings` | Bearer | Org + config |
+| POST | `/api/settings/organizations` | Bearer | Add organization |
+| PUT | `/api/settings/config` | Bearer | Update toggles |
 
 ---
 
-## Backend API
+## ☁️ Deployment
 
-Base URL: `http://localhost:4000`
+**Live Infrastructure:**
 
-| Method | Endpoint                     | Auth   | Description                                        |
-| ------ | ---------------------------- | ------ | -------------------------------------------------- |
-| GET    | `/api/health`                | Public | Service health check                               |
-| POST   | `/api/auth/register`         | Public | Create account → `{ user, accessToken, refreshToken }` |
-| POST   | `/api/auth/login`            | Public | Log in → `{ user, accessToken, refreshToken }`     |
-| POST   | `/api/auth/refresh`          | Public | Rotate refresh token → new `accessToken`           |
-| POST   | `/api/auth/logout`           | Public | Revoke a refresh token                             |
-| GET    | `/api/auth/me`               | Bearer | Current authenticated user                         |
-| POST   | `/api/auth/change-password`  | Bearer | Change password (revokes all sessions)             |
-| GET    | `/api/esg/overview`          | Bearer | Executive overview scores + activity               |
-| GET    | `/api/esg/environmental`     | Bearer | Emissions summary + entries                        |
-| GET    | `/api/esg/social`            | Bearer | CSR KPIs + participation                           |
-| GET    | `/api/esg/governance`        | Bearer | Policies + governance KPIs                         |
-| GET    | `/api/esg/gamification`      | Bearer | Challenges + leaderboard                           |
+| Service | Resource |
+|---------|----------|
+| Compute | AWS App Runner (`ecosphere-app`) |
+| Database | AWS RDS PostgreSQL 16.4 (`ecosphere-db`) |
+| Container Registry | AWS ECR (`ecosphere-app`) |
+| Region | `us-east-1` |
 
-**Auth model (no database — in-memory):**
-- **Access token** — short-lived JWT (15m), sent as `Authorization: Bearer <accessToken>`.
-- **Refresh token** — long-lived (7d), opaque, stored server-side so it can be
-  **revoked** on logout / password change. Rotated on every `/refresh` (old token is
-  invalidated).
-- Passwords are **bcrypt-hashed**; `/register` and `/login` are **rate-limited**;
-  registration input is validated (email format + password strength).
+**Redeploy:**
 
 ```bash
-# Log in → capture accessToken + refreshToken
-curl -X POST http://localhost:4000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d "{\"email\":\"demo@ecosphere.com\",\"password\":\"EcoSphere@2024\"}"
+# Build & push
+docker build -t ecosphere-app:latest --build-arg VITE_API_URL="" .
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 961308088417.dkr.ecr.us-east-1.amazonaws.com
+docker tag ecosphere-app:latest 961308088417.dkr.ecr.us-east-1.amazonaws.com/ecosphere-app:latest
+docker push 961308088417.dkr.ecr.us-east-1.amazonaws.com/ecosphere-app:latest
 
-# Call a protected route
-curl http://localhost:4000/api/esg/overview -H "Authorization: Bearer <accessToken>"
-
-# Refresh when the access token expires
-curl -X POST http://localhost:4000/api/auth/refresh \
-  -H "Content-Type: application/json" \
-  -d "{\"refreshToken\":\"<refreshToken>\"}"
-```
-
-### Environment variables (`backend/.env`)
-
-| Variable                  | Default                  | Description                             |
-| ------------------------- | ------------------------ | --------------------------------------- |
-| `PORT`                    | `4000`                   | API port                                |
-| `CLIENT_ORIGIN`           | `http://localhost:5173`  | Allowed CORS origin(s), comma-sep       |
-| `JWT_SECRET`              | (insecure dev default)   | Secret for signing access tokens        |
-| `ACCESS_TOKEN_EXPIRES_IN` | `15m`                    | Access-token lifetime                   |
-| `REFRESH_TOKEN_TTL_DAYS`  | `7`                      | Refresh-token lifetime (days)           |
-| `BCRYPT_ROUNDS`           | `10`                     | bcrypt cost factor                      |
-| `DEMO_EMAIL`              | `demo@ecosphere.com`     | Seeded demo user email                  |
-| `DEMO_PASSWORD`           | `EcoSphere@2024`         | Seeded demo user password               |
-
----
-
-## Frontend Routes
-
-| Path             | Page                | Access    |
-| ---------------- | ------------------- | --------- |
-| `/`              | Landing page        | Public    |
-| `/login`         | Login               | Public    |
-| `/signup`        | Sign up             | Public    |
-| `/dashboard`     | Executive Overview  | Protected |
-| `/environmental` | Environmental       | Protected |
-| `/social`        | Social & CSR        | Protected |
-| `/governance`    | Governance          | Protected |
-| `/gamification`  | Gamification        | Protected |
-| `/reports`       | Reports & Analytics | Protected |
-| `/settings`      | Settings            | Protected |
-
----
-
-## Project Structure
-
-```
-Ecosphere/
-├─ frontend/                        # React + Vite application
-│  ├─ index.html
-│  ├─ tailwind.config.js            # Custom "Eco" color + typography tokens
-│  └─ src/
-│     ├─ App.jsx                    # Routes + AuthProvider
-│     ├─ context/AuthContext.jsx    # Demo auth (login/logout, persistence)
-│     ├─ pages/                     # Landing, Login, Signup + dashboard modules
-│     └─ components/
-│        ├─ Header, Hero, Modules, Pricing, Footer, AuthLayout, ...
-│        ├─ ProtectedRoute.jsx
-│        └─ dashboard/              # Sidebar, Topbar, layout + section widgets
-│
-├─ backend/                         # Node.js + Express REST API
-│  ├─ .env.example
-│  └─ src/
-│     ├─ server.js                  # App entry, CORS, routes, error handling
-│     ├─ config/env.js              # Env loading + defaults
-│     ├─ middleware/
-│     │  ├─ auth.js                 # Access-token verify (requireAuth, requireRole)
-│     │  └─ rateLimit.js            # In-memory rate limiter
-│     ├─ utils/
-│     │  ├─ jwt.js                  # Sign/verify access tokens
-│     │  └─ validate.js             # Email + password validation
-│     ├─ routes/
-│     │  ├─ auth.js                 # register, login, refresh, logout, me, change-password
-│     │  └─ esg.js                  # /api/esg/* (protected)
-│     └─ data/
-│        ├─ users.js                # In-memory user store (bcrypt-hashed)
-│        ├─ refreshTokens.js        # In-memory refresh-token store (revocable)
-│        └─ esg.js                  # Mock ESG data
-│
-├─ stitch_ecosphere_*/              # Original HTML / DESIGN.md design references
-└─ README.md
+# Trigger deployment
+aws apprunner start-deployment --service-arn "arn:aws:apprunner:us-east-1:961308088417:service/ecosphere-app/e0cb1677bfb34809bba8a6ac4a944dc4" --region us-east-1
 ```
 
 ---
 
-## Design System
+## 👥 Team
 
-The UI follows a **Corporate Modern, Neo-Ecological** style: an off-mint background
-(`#F6F9F7`), pure-white cards with hairline borders, a deep forest-gradient sidebar,
-and an emerald primary color (`#10B981`). Depth comes from tints and thin borders
-rather than heavy shadows. All tokens (colors, typography, spacing) are defined in
-`frontend/tailwind.config.js`.
-
-Module accent colors: Environmental (green), Social (blue), Governance (purple),
-Gamification (orange), Reports (teal), with amber/red reserved for warnings and
-compliance risk.
-
-The `stitch_*` folders contain the original HTML/`DESIGN.md` references these pages
-were built from.
+Built for the **Odoo Hackathon 2026** — ESG Management Platform challenge.
 
 ---
 
-## Roadmap
+## 📄 License
 
-- Connect the frontend to the backend API (replace demo auth with real JWT calls and
-  fetch live ESG data).
-- Persist data in a real database (Postgres/Mongo) instead of the in-memory store.
-- Add real charting (e.g. Recharts) in place of the static SVG previews.
-- Add tests and CI.
+MIT
+]]>

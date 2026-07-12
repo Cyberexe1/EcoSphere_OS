@@ -1,0 +1,24 @@
+{
+  "ImageRepository": {
+    "ImageIdentifier": "961308088417.dkr.ecr.us-east-1.amazonaws.com/ecosphere-app:latest",
+    "ImageRepositoryType": "ECR",
+    "ImageConfiguration": {
+      "Port": "4000",
+      "RuntimeEnvironmentVariables": {
+        "NODE_ENV": "production",
+        "PORT": "4000",
+        "CLIENT_ORIGIN": "*",
+        "JWT_SECRET": "ecosphere-prod-jwt-secret-hackathon-2026-odoo",
+        "ACCESS_TOKEN_EXPIRES_IN": "15m",
+        "REFRESH_TOKEN_TTL_DAYS": "7",
+        "BCRYPT_ROUNDS": "10",
+        "DEMO_EMAIL": "demo@ecosphere.com",
+        "DEMO_PASSWORD": "EcoSphere@2024",
+        "DATABASE_URL": "postgresql://ecosphere_admin:EcoSphere2026Hack@ecosphere-db.cqbew0g64s6d.us-east-1.rds.amazonaws.com:5432/ecosphere"
+      }
+    }
+  },
+  "AuthenticationConfiguration": {
+    "AccessRoleArn": "arn:aws:iam::961308088417:role/ecosphere-apprunner-ecr-access"
+  }
+}
