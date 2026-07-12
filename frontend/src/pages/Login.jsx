@@ -18,9 +18,13 @@ export default function Login() {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e) => {
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const result = login(form.email, form.password)
+    setSubmitting(true)
+    const result = await login(form.email, form.password)
+    setSubmitting(false)
     if (result.ok) {
       navigate('/dashboard')
     } else {
@@ -100,9 +104,10 @@ export default function Login() {
 
         <button
           type="submit"
-          className="w-full h-12 bg-primary text-on-primary text-label-md rounded-xl hover:bg-primary-container transition-all shadow-lg active:scale-[0.99]"
+          disabled={submitting}
+          className="w-full h-12 bg-primary text-on-primary text-label-md rounded-xl hover:bg-primary-container transition-all shadow-lg active:scale-[0.99] disabled:opacity-60"
         >
-          Log in
+          {submitting ? 'Logging in…' : 'Log in'}
         </button>
       </form>
 

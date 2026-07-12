@@ -1,0 +1,10 @@
+node_modules
+.git
+.vscode
+.kiro
+*.md
+frontend/node_modules
+frontend/dist
+backend/node_modules
+.env
+*.log

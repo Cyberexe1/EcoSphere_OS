@@ -40,7 +40,9 @@ export default function Signup() {
   const score = scorePassword(form.password)
   const strength = score > 0 ? STRENGTH[score - 1] : null
 
-  const handleSubmit = (e) => {
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!form.name.trim() || !form.email.trim() || !form.password) {
       setError('Please fill in all required fields.')
@@ -62,10 +64,12 @@ export default function Signup() {
       setError('You must accept the Terms of Service to continue.')
       return
     }
-    const result = register(form)
+    setSubmitting(true)
+    const result = await register({ name: form.name, email: form.email, password: form.password, role: form.org ? `Admin · ${form.org}` : undefined })
+    setSubmitting(false)
     if (result.ok) {
-      toast('Account created. Please log in.', 'success')
-      navigate('/login')
+      toast('Account created successfully.', 'success')
+      navigate('/dashboard')
     } else {
       setError(result.error)
     }
@@ -199,10 +203,10 @@ export default function Signup() {
 
         <button
           type="submit"
-          disabled={!agreed}
+          disabled={!agreed || submitting}
           className="w-full h-12 bg-primary text-on-primary text-label-md rounded-xl hover:bg-primary-container transition-all shadow-lg active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          Create account
+          {submitting ? 'Creating account…' : 'Create account'}
         </button>
       </form>
 
