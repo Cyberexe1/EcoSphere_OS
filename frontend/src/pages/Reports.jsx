@@ -85,42 +85,42 @@ export default function Reports() {
   )
 
   return (
-    <DashboardLayout title="EcoSphere: ESG Management Platform">
+    <DashboardLayout title="Reports">
       {/* Header */}
-      <div className="flex flex-wrap gap-4 justify-between items-end mb-8">
+      <div className="flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center mb-5 sm:mb-6">
         <div>
-          <h1 className="text-display-lg text-on-surface">Reports &amp; Analytics</h1>
-          <p className="text-body-lg text-on-surface-variant mt-2 max-w-2xl">
-            Comprehensive insights for corporate sustainability reporting. Generate automated ESG disclosures or build custom analytical views.
+          <h1 className="text-xl sm:text-2xl font-bold text-on-surface">Reports &amp; Analytics</h1>
+          <p className="text-sm text-on-surface-variant mt-0.5 max-w-xl">
+            Generate automated ESG disclosures or build custom analytical views.
           </p>
         </div>
-        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-outline-variant shadow-sm">
-          <span className="w-2 h-2 rounded-full bg-primary-container animate-pulse" />
-          <span className="text-label-md text-on-surface-variant uppercase tracking-wider">Sync Status: Active</span>
+        <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-black/[0.06] shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Sync: Active</span>
         </div>
       </div>
 
       {/* Report type cards */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-card-gap mb-12">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
         {REPORT_TYPES.map((r) => (
-          <div key={r.title} className="bg-white border border-outline-variant p-6 rounded-xl hover:shadow-lg transition-shadow group">
-            <div className="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
-              <Icon name={r.icon} className="text-[#14B8A6]" />
+          <div key={r.title} className="bg-white border border-black/[0.04] p-5 rounded-xl hover:shadow-md transition-all duration-300 group shadow-sm">
+            <div className="w-9 h-9 bg-gradient-to-br from-emerald-100 to-green-50 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <Icon name={r.icon} className="text-[18px] text-emerald-600" />
             </div>
-            <h3 className="text-headline-sm mb-2 text-on-surface">{r.title}</h3>
-            <p className="text-body-sm text-on-surface-variant mb-6 h-12 line-clamp-2">{r.desc}</p>
+            <h3 className="text-sm font-bold mb-1.5 text-on-surface">{r.title}</h3>
+            <p className="text-xs text-on-surface-variant mb-4 line-clamp-2 leading-relaxed">{r.desc}</p>
             <button
               onClick={() => generate(r.title)}
               disabled={generating === r.title}
-              className="w-full py-2 px-4 border border-primary text-primary text-label-md rounded-lg hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full py-2 px-3 bg-gradient-to-r from-[#1b5e3b] to-[#2e7d52] text-white text-xs font-semibold rounded-lg hover:shadow-md hover:shadow-primary/20 transition-all flex items-center justify-center gap-1.5 disabled:opacity-60"
             >
               {generating === r.title ? (
                 <>
-                  <Icon name="progress_activity" className="text-[16px] animate-spin" /> Generating…
+                  <Icon name="progress_activity" className="text-[14px] animate-spin" /> Generating…
                 </>
               ) : (
                 <>
-                  Generate <Icon name="auto_awesome" className="text-[16px]" />
+                  Generate <Icon name="auto_awesome" className="text-[14px]" />
                 </>
               )}
             </button>

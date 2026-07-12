@@ -20,19 +20,24 @@ const RANKING = [
 
 export default function ChartsSection() {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-card-gap mb-8">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 mb-5 sm:mb-6">
       {/* Emissions Trend */}
-      <div className="lg:col-span-2 glass-card p-8 rounded-xl">
-        <div className="flex flex-wrap gap-4 justify-between items-center mb-6">
-          <div>
-            <h3 className="text-headline-sm text-on-surface">Emissions Trend</h3>
-            <p className="text-body-sm text-on-surface-variant">
-              Carbon intensity (CO2e) per unit of revenue
-            </p>
+      <div className="lg:col-span-2 bg-white p-5 sm:p-6 rounded-xl border border-black/[0.04] shadow-sm hover:shadow-md transition-shadow duration-300">
+        <div className="flex flex-wrap gap-3 justify-between items-center mb-5">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-100 to-green-50 flex items-center justify-center">
+              <Icon name="show_chart" className="text-[18px] text-emerald-600" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-on-surface">Emissions Trend</h3>
+              <p className="text-xs text-on-surface-variant">
+                Carbon intensity (CO2e) per unit of revenue
+              </p>
+            </div>
           </div>
           <div className="flex items-center gap-4">
-            <Legend color="bg-primary" label="Actual" />
-            <Legend color="bg-outline-variant" label="Target" />
+            <Legend color="bg-emerald-500" label="Actual" />
+            <Legend color="bg-black/15" label="Target" dashed />
           </div>
         </div>
         <EcoLineChart
@@ -46,22 +51,33 @@ export default function ChartsSection() {
       </div>
 
       {/* Governance ESG Ranking */}
-      <div className="glass-card p-8 rounded-xl flex flex-col">
-        <h3 className="text-headline-sm text-on-surface mb-1">Governance ESG Ranking</h3>
-        <p className="text-body-sm text-on-surface-variant mb-4">Competitor benchmark analysis</p>
+      <div className="bg-white p-5 sm:p-6 rounded-xl border border-black/[0.04] shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-100 to-indigo-50 flex items-center justify-center">
+            <Icon name="leaderboard" className="text-[18px] text-blue-600" />
+          </div>
+          <div>
+            <h3 className="text-base font-bold text-on-surface">ESG Ranking</h3>
+            <p className="text-xs text-on-surface-variant">Competitor benchmark</p>
+          </div>
+        </div>
         <EcoBarChart
           data={RANKING}
           xKey="name"
           layout="vertical"
-          height={180}
-          bars={[{ key: 'score', name: 'Percentile', color: '#005ac2', colors: ['#005ac2', '#71a1ff', '#adc6ff'] }]}
+          height={170}
+          bars={[{ key: 'score', name: 'Percentile', color: '#005ac2', colors: ['#1b5e3b', '#2563eb', '#94a3b8'] }]}
         />
-        <div className="mt-6 p-4 bg-tertiary/5 rounded-lg border border-tertiary/10">
-          <div className="flex gap-3">
-            <Icon name="insights" className="text-tertiary" />
-            <p className="text-body-sm text-tertiary">
-              Board diversity and transparency scores increased your rank by 12 points this quarter.
-            </p>
+        <div className="mt-auto pt-4">
+          <div className="p-3.5 bg-gradient-to-r from-emerald-50 to-green-50 rounded-lg border border-emerald-100/50">
+            <div className="flex gap-2.5 items-start">
+              <div className="w-7 h-7 rounded-md bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <Icon name="trending_up" className="text-emerald-600 text-[16px]" />
+              </div>
+              <p className="text-xs text-emerald-800 leading-relaxed">
+                Board diversity and transparency scores increased your rank by <span className="font-bold">12 points</span> this quarter.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -69,11 +85,11 @@ export default function ChartsSection() {
   )
 }
 
-function Legend({ color, label }) {
+function Legend({ color, label, dashed }) {
   return (
-    <div className="flex items-center gap-2">
-      <span className={`w-3 h-3 rounded-full ${color}`} />
-      <span className="text-label-sm">{label}</span>
+    <div className="flex items-center gap-1.5">
+      <span className={`w-3 h-[3px] rounded-full ${color} ${dashed ? 'opacity-50' : ''}`} />
+      <span className="text-[11px] font-medium text-on-surface-variant">{label}</span>
     </div>
   )
 }

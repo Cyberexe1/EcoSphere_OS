@@ -8,10 +8,10 @@ import { useToast } from '../components/ui/Toast.jsx'
 import { useLocalStorageState } from '../hooks/useLocalStorageState.js'
 
 const KPIS = [
-  { label: 'Active Policies', icon: 'verified', iconClass: 'text-primary', value: '24', note: '+2', noteClass: 'text-primary', noteIcon: 'trending_up' },
-  { label: 'Pending Ack.', icon: 'pending_actions', iconClass: 'text-gov-accent', value: '142', note: 'Overdue', noteClass: 'text-error', noteIcon: 'schedule' },
-  { label: 'Open Issues', icon: 'warning', iconClass: 'text-error', value: '12', note: '8 Critical', noteClass: 'text-on-surface-variant' },
-  { label: 'Upcoming Audits', icon: 'event_note', iconClass: 'text-tertiary', value: '03', note: 'Next: 12 Oct', noteClass: 'text-on-surface-variant' },
+  { label: 'Active Policies', icon: 'verified', value: '24', note: '+2', noteClass: 'text-white', noteIcon: 'trending_up', gradient: 'from-[#1b5e3b] to-[#2e7d52]' },
+  { label: 'Pending Ack.', icon: 'pending_actions', value: '142', note: 'Overdue', noteClass: 'text-red-300', noteIcon: 'schedule', gradient: 'from-[#1e293b] to-[#334155]' },
+  { label: 'Open Issues', icon: 'warning', value: '12', note: '8 Critical', noteClass: 'text-red-300', gradient: 'from-[#7f1d1d] to-[#dc2626]' },
+  { label: 'Upcoming Audits', icon: 'event_note', value: '03', note: 'Next: 12 Oct', noteClass: 'text-white/60', gradient: 'from-[#1e3a5f] to-[#2563eb]' },
 ]
 
 const TABS = [
@@ -101,42 +101,47 @@ export default function Governance() {
   }
 
   return (
-    <DashboardLayout title="EcoSphere: ESG Management Platform">
-      <div className="space-y-card-gap">
+    <DashboardLayout title="Governance">
+      <div className="space-y-5 sm:space-y-6">
         {/* Page header */}
-        <div className="flex flex-wrap gap-4 items-center justify-between">
+        <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
           <div>
-            <h1 className="text-display-lg text-on-surface">Governance</h1>
-            <p className="text-on-surface-variant text-body-md">
+            <h1 className="text-xl sm:text-2xl font-bold text-on-surface">Governance</h1>
+            <p className="text-sm text-on-surface-variant mt-0.5">
               Policies, Audits &amp; Compliance Management
             </p>
           </div>
           <button
             onClick={() => toast('Governance report generated.', 'success')}
-            className="bg-gov-accent text-white px-6 py-2.5 rounded-xl text-label-md flex items-center gap-2 hover:opacity-90 transition-opacity shadow-lg shadow-gov-accent/20"
+            className="px-3 py-2 bg-gradient-to-r from-[#1e293b] to-[#334155] text-white text-xs font-semibold rounded-lg hover:shadow-md transition-all flex items-center gap-1.5"
           >
-            <Icon name="add_circle" /> Generate Report
+            <Icon name="add_circle" className="text-[16px]" /> Generate Report
           </button>
         </div>
 
         {/* KPI row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {KPIS.map((kpi) => (
             <div
               key={kpi.label}
-              className="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/30 flex flex-col justify-between h-32"
+              className={`relative overflow-hidden p-4 sm:p-5 rounded-xl bg-gradient-to-br ${kpi.gradient} shadow-md`}
             >
-              <div className="flex items-start justify-between">
-                <span className="text-on-surface-variant text-label-md uppercase tracking-wider">
-                  {kpi.label}
-                </span>
-                <Icon name={kpi.icon} className={kpi.iconClass} />
-              </div>
-              <div className="flex items-baseline gap-2">
-                <span className="text-display-lg font-semibold">{kpi.value}</span>
-                <span className={`text-label-sm flex items-center font-bold ${kpi.noteClass}`}>
-                  {kpi.noteIcon && <Icon name={kpi.noteIcon} className="text-xs" />} {kpi.note}
-                </span>
+              <div className="absolute -top-6 -right-6 w-20 h-20 bg-white/5 rounded-full blur-xl" />
+              <div className="relative z-10">
+                <div className="flex items-start justify-between mb-3">
+                  <span className="text-[11px] font-semibold text-white/60 uppercase tracking-wider">
+                    {kpi.label}
+                  </span>
+                  <div className="w-7 h-7 rounded-lg bg-white/15 flex items-center justify-center">
+                    <Icon name={kpi.icon} className="text-[16px] text-white" />
+                  </div>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-extrabold text-white">{kpi.value}</span>
+                  <span className={`text-[11px] flex items-center font-bold ${kpi.noteClass}`}>
+                    {kpi.noteIcon && <Icon name={kpi.noteIcon} className="text-[12px]" />} {kpi.note}
+                  </span>
+                </div>
               </div>
             </div>
           ))}

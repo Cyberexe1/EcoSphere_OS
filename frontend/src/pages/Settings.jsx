@@ -112,26 +112,31 @@ export default function Settings() {
 
   return (
     <DashboardLayout title="Settings">
-      <div className="space-y-card-gap pb-24">
+      <div className="space-y-5 sm:space-y-6 pb-24">
         {/* Organization Settings */}
-        <section className="bg-white rounded-xl border border-outline-variant overflow-hidden">
-          <div className="p-6 border-b border-outline-variant flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <h3 className="text-headline-sm text-on-surface">Organization Settings</h3>
-              <p className="text-body-sm text-on-surface-variant">Manage subsidiary entities and user access levels across the globe.</p>
+        <section className="bg-white rounded-xl border border-black/[0.04] overflow-hidden shadow-sm">
+          <div className="p-4 sm:p-5 border-b border-black/[0.04] flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-100 to-gray-50 flex items-center justify-center">
+                <Icon name="apartment" className="text-[16px] text-slate-600" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-on-surface">Organization Settings</h3>
+                <p className="text-xs text-on-surface-variant">Manage subsidiary entities and user access levels.</p>
+              </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <div className="relative">
-                <Icon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm" />
+                <Icon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50 text-[16px]" />
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="pl-8 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg text-body-sm focus:ring-1 focus:ring-primary outline-none w-full md:w-auto"
+                  className="pl-8 pr-4 py-2 bg-[#F4F7F5] border border-black/[0.04] rounded-lg text-xs focus:ring-1 focus:ring-primary outline-none w-full md:w-auto"
                   placeholder="Filter organizations..."
                 />
               </div>
-              <button onClick={openAdd} className="bg-primary text-white px-4 py-2 rounded-lg text-label-md flex items-center gap-2 hover:opacity-90 transition-opacity whitespace-nowrap">
-                <Icon name="add" className="text-sm" /> Add Organization
+              <button onClick={openAdd} className="px-3 py-2 bg-gradient-to-r from-[#1b5e3b] to-[#2e7d52] text-white text-xs font-semibold rounded-lg hover:shadow-md transition-all flex items-center gap-1.5 whitespace-nowrap">
+                <Icon name="add" className="text-[16px]" /> Add Organization
               </button>
             </div>
           </div>

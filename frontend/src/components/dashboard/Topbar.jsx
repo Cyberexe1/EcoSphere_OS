@@ -4,7 +4,6 @@ import Icon from '../Icon.jsx'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useToast } from '../ui/Toast.jsx'
 
-// Keyword → route map for the global search.
 const SEARCH_INDEX = [
   { keywords: ['dashboard', 'overview', 'executive', 'home'], to: '/dashboard', label: 'Dashboard' },
   { keywords: ['environment', 'emission', 'carbon', 'co2', 'scope'], to: '/environmental', label: 'Environmental' },
@@ -38,50 +37,52 @@ export default function Topbar({ onMenuClick, title = 'EcoSphere: ESG Management
   }
 
   return (
-    <header className="fixed top-0 left-0 lg:left-[260px] right-0 z-30 flex justify-between items-center px-gutter h-16 bg-surface border-b border-outline-variant">
-      <div className="flex items-center gap-4 lg:gap-8">
+    <header className="fixed top-0 left-0 lg:left-[270px] right-0 z-30 flex justify-between items-center px-4 sm:px-6 lg:px-8 h-[72px] bg-white/80 backdrop-blur-md border-b border-black/5">
+      <div className="flex items-center gap-3 lg:gap-6">
         <button
-          className="lg:hidden text-on-surface-variant p-2 -ml-2"
+          className="lg:hidden text-on-surface-variant p-2 -ml-2 hover:bg-black/5 rounded-lg transition-colors"
           onClick={onMenuClick}
           aria-label="Open navigation menu"
         >
           <Icon name="menu" />
         </button>
-        <span className="text-headline-sm md:text-headline-md font-bold text-primary truncate max-w-[220px] sm:max-w-none">
+        <h1 className="text-lg sm:text-xl font-bold text-on-surface truncate max-w-[200px] sm:max-w-none">
           {title}
-        </span>
+        </h1>
       </div>
 
-      <div className="flex items-center gap-3">
-        <form onSubmit={handleSearch} className="relative hidden lg:block" role="search">
+      <div className="flex items-center gap-2 sm:gap-3">
+        <form onSubmit={handleSearch} className="relative hidden md:block" role="search">
           <Icon
             name="search"
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50 text-[18px]"
           />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-body-sm w-64 focus:outline-none focus:ring-1 focus:ring-primary"
+            className="pl-10 pr-4 py-2.5 bg-[#F4F7F5] border border-transparent rounded-xl text-sm w-56 lg:w-64 focus:outline-none focus:border-primary/30 focus:bg-white focus:shadow-sm transition-all placeholder:text-on-surface-variant/40"
             placeholder="Search modules… (e.g. carbon)"
             type="text"
             aria-label="Search modules"
           />
         </form>
         <button
-          className="text-on-surface-variant hover:bg-surface-variant/50 p-2 rounded-full"
+          className="relative text-on-surface-variant hover:text-on-surface hover:bg-black/5 p-2.5 rounded-xl transition-colors"
           aria-label="Notifications"
           onClick={() => toast('No new notifications', 'info')}
         >
-          <Icon name="notifications" />
+          <Icon name="notifications" className="text-[22px]" />
+          <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full" />
         </button>
-        <div className="flex items-center gap-2 pl-2">
-          <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-body-sm">
+        <div className="flex items-center gap-2.5 pl-2 sm:pl-3 ml-1 sm:ml-2 border-l border-black/5">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary/70 text-white flex items-center justify-center font-bold text-sm shadow-sm">
             {user?.name?.charAt(0) ?? 'U'}
           </div>
-          <div className="hidden xl:block leading-tight">
-            <p className="text-body-sm font-semibold text-on-surface">{user?.name}</p>
-            <p className="text-label-sm text-on-surface-variant">{user?.role}</p>
+          <div className="hidden lg:block leading-tight">
+            <p className="text-sm font-semibold text-on-surface">{user?.name}</p>
+            <p className="text-xs text-on-surface-variant/70">{user?.role}</p>
           </div>
+          <Icon name="expand_more" className="hidden lg:block text-on-surface-variant/50 text-[18px]" />
         </div>
       </div>
     </header>

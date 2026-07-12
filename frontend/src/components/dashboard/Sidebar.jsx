@@ -26,36 +26,37 @@ export default function Sidebar({ open, onClose }) {
     <>
       {open && (
         <div
-          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"
           onClick={onClose}
           aria-hidden="true"
         />
       )}
       <aside
-        className={`fixed left-0 top-0 h-full flex flex-col py-6 px-4 z-50 bg-inverse-surface w-[260px] border-r border-outline-variant/20 transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed left-0 top-0 h-full flex flex-col py-6 px-4 z-50 bg-[#1a2e23] w-[270px] transition-transform duration-300 lg:translate-x-0 ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="mb-8 px-2">
-          <h2 className="text-headline-sm text-primary-fixed font-bold">EcoSphere</h2>
-          <p className="text-label-md text-surface-variant opacity-70">ESG Management</p>
+        <div className="mb-8 px-3">
+          <h2 className="text-xl font-extrabold text-white tracking-tight">EcoSphere</h2>
+          <p className="text-xs text-white/50 mt-0.5">ESG Management Platform</p>
         </div>
 
         <nav className="flex-1 flex flex-col gap-1 overflow-y-auto hide-scrollbar">
           {NAV_ITEMS.map((item) => {
             const active = item.to && location.pathname === item.to
-            const className = `flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 ${
+            const className = `flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 ${
               active
-                ? 'bg-primary-container text-on-primary-container'
-                : 'text-surface-variant hover:text-white hover:bg-primary/20'
+                ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                : 'text-white/60 hover:text-white hover:bg-white/5'
             }`
             const content = (
               <>
                 <Icon
                   name={item.icon}
+                  className="text-[20px]"
                   style={active ? { fontVariationSettings: "'FILL' 1" } : undefined}
                 />
-                <span className="text-label-md">{item.label}</span>
+                <span className="text-sm font-medium">{item.label}</span>
               </>
             )
 
@@ -67,7 +68,7 @@ export default function Sidebar({ open, onClose }) {
               <button
                 key={item.label}
                 type="button"
-                className={`${className} text-left opacity-60 cursor-not-allowed`}
+                className={`${className} text-left opacity-40 cursor-not-allowed`}
                 title="Coming soon"
               >
                 {content}
@@ -79,23 +80,23 @@ export default function Sidebar({ open, onClose }) {
         <Link
           to="/reports"
           onClick={onClose}
-          className="mt-4 w-full py-3 bg-primary text-white rounded-xl text-label-md flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors"
+          className="mt-4 w-full py-3 bg-primary text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 transition-all"
         >
-          <Icon name="add" className="text-sm" /> New Report
+          <Icon name="add" className="text-[18px]" /> New Report
         </Link>
 
-        <div className="mt-auto pt-6 border-t border-white/10 flex flex-col gap-1">
+        <div className="mt-6 pt-5 border-t border-white/10 flex flex-col gap-0.5">
           <a
             href="mailto:support@ecosphere.com"
-            className="flex items-center gap-3 px-3 py-2 text-surface-variant hover:text-white text-label-md"
+            className="flex items-center gap-3 px-3 py-2.5 text-white/50 hover:text-white rounded-lg hover:bg-white/5 transition-colors text-sm"
           >
-            <Icon name="help" /> Support
+            <Icon name="help" className="text-[20px]" /> Support
           </a>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 px-3 py-2 text-surface-variant hover:text-white text-label-md text-left"
+            className="flex items-center gap-3 px-3 py-2.5 text-white/50 hover:text-red-300 rounded-lg hover:bg-red-500/10 transition-colors text-sm text-left"
           >
-            <Icon name="logout" /> Log out
+            <Icon name="logout" className="text-[20px]" /> Log out
           </button>
         </div>
       </aside>
