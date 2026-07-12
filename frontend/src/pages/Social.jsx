@@ -16,7 +16,7 @@ const SEED_PROGRAMS = [
     id: 1,
     img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuADB2x2fu5IHbqlZQFKTXtAsLKDvZi4pgIeMHXfkrqfH2biasJJWZb5yA4JXnSRyoTpx6FXfaxjKxwdXbXfJKJuG7Rq9Wek516U7GOACA75DFlrMpNAgYDDVZXC4kQqLGipG7quIVMWfKAGCNl_BD1F3AX5LJ9xAwE2Y9DUBACAAQ_-6nV9Ge4KiT4X5_Xh0-1TK-eaOVGbNkWMtM5bnrvX9F7Ytw-nJFvI92GkZoPUegszLRH8yAmL6S-863aR8m8ZXiZWkHwunkWY',
     tag: 'Environmental',
-    tagClass: 'text-primary',
+    tagClass: 'text-emerald-700 bg-emerald-100',
     title: 'Tree Plantation Drive',
     location: 'Blackwood Forest Reserve',
     participants: 48,
@@ -26,7 +26,7 @@ const SEED_PROGRAMS = [
     id: 2,
     img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAgQI_diR8xB6vVgULPeXUHbSFKOXP5iE2RrspFegOJBDxaiH1CAJ2zKqcxXt9IBOkN4icp1YBt0iVDZHka8Pk4P5g446AdSqn6-SdSYMuabEU-03_AHSluL7mHWd4YsO1dGoFL4qH50cpuuoxaSJY_ZANBkm7Kv1-JI68qZkdIDodkpUMbVqe7gQGfKCPBY66wmVTLJVo8gNXtKucfakkcYXgAS6Z6BieQxlnjmmLXnmXADzIhvMSXDv65zMcBh2stt-BoE2iSnYwJ',
     tag: 'Health',
-    tagClass: 'text-error',
+    tagClass: 'text-red-700 bg-red-100',
     title: 'Blood Donation Camp',
     location: 'Corporate HQ, Hall A',
     participants: 38,
@@ -58,12 +58,12 @@ export default function Social() {
 
   const kpis = useMemo(
     () => [
-      { icon: 'event_available', value: programs.length, label: 'CSR Activities', sub: 'Active initiatives' },
-      { icon: 'groups', value: programs.reduce((s, p) => s + p.participants, 0), label: 'Participants', sub: 'Employees involved' },
-      { icon: 'timer', value: '4.5k', label: 'Volunteer Hours', sub: 'Total community service' },
-      { icon: 'military_tech', value: participation.reduce((s, p) => s + p.points, 0), label: 'Points Awarded', sub: 'From approvals' },
-      { icon: 'diversity_3', value: '8.4', label: 'Diversity Score', sub: 'Out of 10 base index' },
-      { icon: 'favorite', value: '9.1', label: 'Impact Score', sub: 'Community satisfaction' },
+      { icon: 'event_available', value: programs.length, label: 'CSR Activities', gradient: 'from-[#1b5e3b] to-[#2e7d52]' },
+      { icon: 'groups', value: programs.reduce((s, p) => s + p.participants, 0), label: 'Participants', gradient: 'from-[#14532d] to-[#166534]' },
+      { icon: 'timer', value: '4.5k', label: 'Volunteer Hours', gradient: 'from-[#1e3a5f] to-[#2563eb]' },
+      { icon: 'military_tech', value: participation.reduce((s, p) => s + p.points, 0), label: 'Points Awarded', gradient: 'from-[#1e293b] to-[#334155]' },
+      { icon: 'diversity_3', value: '8.4', label: 'Diversity Score', gradient: 'from-[#4a1d6b] to-[#7c3aed]' },
+      { icon: 'favorite', value: '9.1', label: 'Impact Score', gradient: 'from-[#7f1d1d] to-[#dc2626]' },
     ],
     [programs, participation]
   )
@@ -95,7 +95,7 @@ export default function Social() {
         id: Date.now(),
         img: SEED_PROGRAMS[0].img,
         tag: form.tag,
-        tagClass: form.tag === 'Health' ? 'text-error' : 'text-primary',
+        tagClass: form.tag === 'Health' ? 'text-red-700 bg-red-100' : 'text-emerald-700 bg-emerald-100',
         title: form.title,
         location: form.location,
         participants: 0,
@@ -134,13 +134,13 @@ export default function Social() {
   }
 
   return (
-    <DashboardLayout title="Social & CSR Management">
-      <div className="space-y-gutter">
+    <DashboardLayout title="Social & CSR">
+      <div className="space-y-5 sm:space-y-6">
         {/* Header */}
-        <div className="flex flex-wrap gap-4 items-center justify-between">
+        <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
           <div>
-            <h1 className="text-display-lg text-on-surface">Social &amp; CSR</h1>
-            <p className="text-body-md text-on-surface-variant">
+            <h1 className="text-xl sm:text-2xl font-bold text-on-surface">Social &amp; CSR</h1>
+            <p className="text-sm text-on-surface-variant mt-0.5">
               Community engagement, diversity &amp; employee participation.
             </p>
           </div>
@@ -150,26 +150,24 @@ export default function Social() {
               setFormError('')
               setActivityModal(true)
             }}
-            className="flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-lg text-label-md hover:bg-primary/90 transition-all shadow-sm"
+            className="px-3 py-2 bg-gradient-to-r from-[#1b5e3b] to-[#2e7d52] text-white text-xs font-semibold rounded-lg hover:shadow-md hover:shadow-primary/20 transition-all flex items-center gap-1.5"
           >
-            <Icon name="add_circle" className="text-[20px]" /> Create CSR Activity
+            <Icon name="add_circle" className="text-[16px]" /> Create CSR Activity
           </button>
         </div>
 
         {/* KPI cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
           {kpis.map((kpi) => (
-            <div key={kpi.label} className="bg-white border border-[#E5EAE8] p-4 rounded-xl flex flex-col justify-between hover:border-primary/40 transition-colors">
-              <div className="flex justify-between items-start mb-2">
-                <span className="text-tertiary bg-tertiary/5 p-2 rounded-lg">
-                  <Icon name={kpi.icon} />
-                </span>
+            <div key={kpi.label} className={`relative overflow-hidden p-4 rounded-xl bg-gradient-to-br ${kpi.gradient} shadow-md`}>
+              <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/5 rounded-full blur-xl" />
+              <div className="relative z-10">
+                <div className="w-7 h-7 rounded-lg bg-white/15 flex items-center justify-center mb-2">
+                  <Icon name={kpi.icon} className="text-[16px] text-white" />
+                </div>
+                <h3 className="text-2xl font-extrabold text-white leading-none">{kpi.value}</h3>
+                <p className="text-[10px] font-semibold text-white/60 uppercase tracking-wider mt-1">{kpi.label}</p>
               </div>
-              <div>
-                <h3 className="text-display-lg leading-none mb-1">{kpi.value}</h3>
-                <p className="text-label-sm text-outline uppercase tracking-wider">{kpi.label}</p>
-              </div>
-              <p className="text-[11px] text-on-surface-variant mt-2">{kpi.sub}</p>
             </div>
           ))}
         </div>
@@ -177,33 +175,36 @@ export default function Social() {
         {/* Programs */}
         <section className="space-y-4">
           <div className="flex justify-between items-center">
-            <h2 className="text-headline-sm flex items-center gap-2">
-              <Icon name="volunteer_activism" className="text-primary" /> Active CSR Programs
-            </h2>
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-100 to-green-50 flex items-center justify-center">
+                <Icon name="volunteer_activism" className="text-[16px] text-emerald-600" />
+              </div>
+              <h2 className="text-base font-bold text-on-surface">Active CSR Programs</h2>
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {programs.map((p) => (
-              <div key={p.id} className="bg-white border border-[#E5EAE8] rounded-xl overflow-hidden group">
-                <div className="relative h-32 w-full overflow-hidden">
+              <div key={p.id} className="bg-white border border-black/[0.04] rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
+                <div className="relative h-28 sm:h-32 w-full overflow-hidden">
                   <div className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style={{ backgroundImage: `url('${p.img}')` }} />
-                  <span className={`absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${p.tagClass}`}>
+                  <span className={`absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${p.tagClass}`}>
                     {p.tag}
                   </span>
                 </div>
-                <div className="p-4 space-y-3">
-                  <h4 className="font-semibold text-body-lg">{p.title}</h4>
-                  <p className="text-body-sm text-on-surface-variant flex items-center gap-1">
-                    <Icon name="location_on" className="text-[16px]" /> {p.location}
+                <div className="p-4 space-y-2.5">
+                  <h4 className="font-bold text-sm">{p.title}</h4>
+                  <p className="text-xs text-on-surface-variant flex items-center gap-1">
+                    <Icon name="location_on" className="text-[14px]" /> {p.location}
                   </p>
-                  <p className="text-body-sm text-on-surface-variant flex items-center gap-1">
-                    <Icon name="groups" className="text-[16px]" /> {p.participants} participants
+                  <p className="text-xs text-on-surface-variant flex items-center gap-1">
+                    <Icon name="groups" className="text-[14px]" /> {p.participants} participants
                   </p>
                   <button
                     onClick={() => joinActivity(p.id)}
-                    className={`w-full py-2 rounded-lg text-label-md transition-all ${
+                    className={`w-full py-2 rounded-lg text-xs font-semibold transition-all ${
                       p.joined
-                        ? 'border border-outline-variant text-on-surface-variant hover:bg-surface-container'
-                        : 'bg-primary-container text-on-primary-container hover:opacity-90'
+                        ? 'border border-black/[0.06] text-on-surface-variant hover:bg-black/[0.02]'
+                        : 'bg-gradient-to-r from-[#1b5e3b] to-[#2e7d52] text-white hover:shadow-md hover:shadow-primary/20'
                     }`}
                   >
                     {p.joined ? 'Leave Activity' : 'Join Activity'}
@@ -217,23 +218,28 @@ export default function Social() {
         {/* Participation table */}
         <section className="space-y-4">
           <div className="flex flex-wrap gap-3 justify-between items-center">
-            <h2 className="text-headline-sm">Participation Tracker</h2>
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-100 to-indigo-50 flex items-center justify-center">
+                <Icon name="assignment_ind" className="text-[16px] text-blue-600" />
+              </div>
+              <h2 className="text-base font-bold text-on-surface">Participation Tracker</h2>
+            </div>
             <div className="flex gap-2 items-center">
-              <div className="flex items-center gap-2 bg-white border border-outline-variant rounded-lg px-3 py-1.5">
-                <Icon name="search" className="text-outline text-[18px]" />
+              <div className="flex items-center gap-2 bg-[#F4F7F5] border border-black/[0.04] rounded-lg px-3 py-1.5">
+                <Icon name="search" className="text-on-surface-variant/50 text-[16px]" />
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search..."
-                  className="border-none p-0 text-body-sm focus:ring-0 outline-none w-32"
+                  className="bg-transparent border-none p-0 text-xs focus:ring-0 outline-none w-28"
                 />
               </div>
-              <button onClick={handleExport} className="px-3 py-1.5 border border-outline-variant rounded-lg text-label-sm hover:bg-white transition-colors">
+              <button onClick={handleExport} className="px-3 py-1.5 bg-white border border-black/[0.06] rounded-lg text-xs font-medium text-on-surface-variant hover:border-primary/30 transition-colors">
                 Export CSV
               </button>
             </div>
           </div>
-          <div className="bg-white border border-[#E5EAE8] rounded-xl overflow-hidden">
+          <div className="bg-white border border-black/[0.04] rounded-xl overflow-hidden shadow-sm">
             {loading ? (
               <SkeletonTable rows={4} cols={6} />
             ) : filteredParticipation.length === 0 ? (
@@ -241,48 +247,48 @@ export default function Social() {
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
-                  <thead className="bg-surface-container-highest/50">
-                    <tr>
+                  <thead>
+                    <tr className="bg-[#F8FAF9] border-b border-black/[0.04]">
                       {['Employee', 'Department', 'CSR Activity', 'Status', 'Points', 'Actions'].map((h, i) => (
-                        <th key={h} className={`px-6 py-4 text-label-md text-on-surface-variant uppercase tracking-wider ${i === 5 ? 'text-right' : ''}`}>
+                        <th key={h} className={`px-4 sm:px-5 py-3 text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider ${i === 5 ? 'text-right' : ''}`}>
                           {h}
                         </th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-outline-variant">
+                  <tbody className="divide-y divide-black/[0.03]">
                     {filteredParticipation.map((p) => (
-                      <tr key={p.id} className="hover:bg-surface-container-low transition-colors">
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+                      <tr key={p.id} className="hover:bg-black/[0.015] transition-colors">
+                        <td className="px-4 sm:px-5 py-3.5">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-emerald-50 text-primary flex items-center justify-center font-bold text-xs">
                               {p.employee.charAt(0)}
                             </div>
-                            <span className="font-medium text-body-md">{p.employee}</span>
+                            <span className="font-semibold text-sm">{p.employee}</span>
                           </div>
                         </td>
-                        <td className="px-6 py-4 text-body-md text-on-surface-variant">{p.department}</td>
-                        <td className="px-6 py-4 text-body-md">{p.activity}</td>
-                        <td className="px-6 py-4">
+                        <td className="px-4 sm:px-5 py-3.5 text-sm text-on-surface-variant">{p.department}</td>
+                        <td className="px-4 sm:px-5 py-3.5 text-sm">{p.activity}</td>
+                        <td className="px-4 sm:px-5 py-3.5">
                           <Badge tone={STATUS_TONE[p.status]}>{p.status}</Badge>
                         </td>
-                        <td className={`px-6 py-4 text-body-md font-bold ${p.points ? 'text-primary' : 'text-outline'}`}>
+                        <td className={`px-4 sm:px-5 py-3.5 text-sm font-bold ${p.points ? 'text-primary' : 'text-on-surface-variant/40'}`}>
                           {p.points} pts
                         </td>
-                        <td className="px-6 py-4 text-right whitespace-nowrap">
+                        <td className="px-4 sm:px-5 py-3.5 text-right whitespace-nowrap">
                           {p.status === 'Approved' || p.status === 'Rejected' ? (
-                            <span className="text-label-sm text-outline">—</span>
+                            <span className="text-xs text-on-surface-variant/40">—</span>
                           ) : (
                             <>
                               <button
                                 onClick={() => approve(p.id)}
-                                className="px-2.5 py-1 text-label-sm rounded-lg text-primary hover:bg-primary/10 transition-colors"
+                                className="px-2.5 py-1 text-xs font-semibold rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors"
                               >
                                 Approve
                               </button>
                               <button
                                 onClick={() => setRejectTarget(p)}
-                                className="px-2.5 py-1 text-label-sm rounded-lg text-error hover:bg-error/10 transition-colors"
+                                className="px-2.5 py-1 text-xs font-semibold rounded-lg text-red-600 hover:bg-red-50 transition-colors"
                               >
                                 Reject
                               </button>
@@ -307,27 +313,27 @@ export default function Social() {
         subtitle="Launch a new community or engagement initiative."
         footer={
           <>
-            <button onClick={() => setActivityModal(false)} className="px-5 py-2 rounded-lg text-label-md text-on-surface-variant hover:bg-surface-variant transition-colors">
+            <button onClick={() => setActivityModal(false)} className="px-4 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-black/[0.03] transition-colors">
               Cancel
             </button>
-            <button type="submit" form="activity-form" className="px-5 py-2 rounded-lg text-label-md bg-primary text-white hover:brightness-110 transition-all">
+            <button type="submit" form="activity-form" className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-[#1b5e3b] to-[#2e7d52] text-white hover:shadow-md transition-all">
               Create Activity
             </button>
           </>
         }
       >
         <form id="activity-form" onSubmit={createActivity} className="space-y-4">
-          {formError && <p className="text-body-sm text-error bg-error/10 rounded-lg px-3 py-2">{formError}</p>}
+          {formError && <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">{formError}</p>}
           <label className="block space-y-1.5">
-            <span className="text-label-md text-on-surface">Activity Title</span>
+            <span className="text-sm font-medium text-on-surface">Activity Title</span>
             <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input" placeholder="e.g. Community Beach Cleanup" />
           </label>
           <label className="block space-y-1.5">
-            <span className="text-label-md text-on-surface">Location</span>
+            <span className="text-sm font-medium text-on-surface">Location</span>
             <input value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} className="input" placeholder="e.g. Marina Bay" />
           </label>
           <label className="block space-y-1.5">
-            <span className="text-label-md text-on-surface">Category</span>
+            <span className="text-sm font-medium text-on-surface">Category</span>
             <select value={form.tag} onChange={(e) => setForm({ ...form, tag: e.target.value })} className="input">
               <option>Environmental</option>
               <option>Health</option>
