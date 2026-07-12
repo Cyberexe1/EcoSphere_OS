@@ -53,37 +53,37 @@ const RESOURCES = [
 
 export default function Resources() {
   return (
-    <section className="py-24 bg-surface-container-low" id="resources">
-      <div className="max-w-[1440px] mx-auto px-container-padding">
-        <div className="text-center max-w-2xl mx-auto mb-16">
+    <section className="py-16 sm:py-20 lg:py-24 bg-surface-container-low" id="resources">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-container-padding">
+        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-16">
           <span className="text-primary font-bold text-label-md tracking-widest uppercase">
             Resources
           </span>
-          <h2 className="text-[32px] md:text-[40px] font-bold mb-4 mt-3 tracking-tight">
+          <h2 className="text-[28px] sm:text-[32px] md:text-[40px] font-bold mb-3 sm:mb-4 mt-3 tracking-tight">
             Everything You Need to Succeed
           </h2>
-          <p className="text-body-lg text-on-surface-variant">
+          <p className="text-body-md sm:text-body-lg text-on-surface-variant">
             Explore our library of guides, research, and tools to accelerate your sustainability
             journey and stay ahead of evolving ESG regulations.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {RESOURCES.map((resource) => (
             <a
               key={resource.title}
               href={resource.link}
-              className="bg-white p-8 rounded-xl border border-outline-variant hover:border-primary/50 hover:shadow-lg transition-all group block"
+              className="bg-white p-6 sm:p-8 rounded-xl border border-outline-variant hover:border-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group block"
             >
               <div
-                className={`w-12 h-12 ${resource.iconBg} ${resource.iconColor} rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}
+                className={`w-11 h-11 sm:w-12 sm:h-12 ${resource.iconBg} ${resource.iconColor} rounded-lg flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300`}
               >
                 <Icon name={resource.icon} />
               </div>
-              <h3 className="text-headline-sm mb-2">{resource.title}</h3>
-              <p className="text-body-sm text-on-surface-variant mb-4">{resource.desc}</p>
-              <span className="text-label-md text-primary font-bold flex items-center gap-1 group-hover:gap-2 transition-all">
+              <h3 className="text-body-lg sm:text-headline-sm font-bold mb-2">{resource.title}</h3>
+              <p className="text-body-sm text-on-surface-variant mb-3 sm:mb-4 leading-relaxed">{resource.desc}</p>
+              <span className="text-label-md text-primary font-bold flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
                 Explore
-                <Icon name="arrow_forward" className="text-[18px]" />
+                <Icon name="arrow_forward" className="text-[16px] sm:text-[18px]" />
               </span>
             </a>
           ))}
