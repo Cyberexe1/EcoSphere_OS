@@ -13,7 +13,14 @@ const app = express()
 
 app.use(
   cors({
-    origin: config.clientOrigin,
+    origin: (origin, cb) => {
+      // Allow requests with no origin (mobile apps, curl, etc.)
+      if (!origin) return cb(null, true)
+      // In production, allow all origins (App Runner serves both FE + BE)
+      if (config.clientOrigin.includes('*')) return cb(null, true)
+      if (config.clientOrigin.includes(origin)) return cb(null, true)
+      return cb(new Error('Not allowed by CORS'))
+    },
     credentials: true,
   })
 )

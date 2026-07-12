@@ -3,7 +3,7 @@
  * Handles token management, auto-refresh, and consistent error handling.
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+const API_BASE = import.meta.env.VITE_API_URL || ''
 
 const STORAGE_KEYS = {
   accessToken: 'ecosphere.api.accessToken',
