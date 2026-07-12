@@ -52,6 +52,8 @@ export default {
         'on-tertiary-container': '#00367a',
         'on-tertiary-fixed-variant': '#004395',
         'error-container': '#ffdad6',
+        'accent-orange': '#F97316',
+        'on-accent-orange': '#FFFFFF',
       },
       borderRadius: {
         DEFAULT: '0.125rem',

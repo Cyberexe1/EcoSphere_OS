@@ -1,9 +1,7 @@
 import Icon from '../Icon.jsx'
 import { useAuth } from '../../context/AuthContext.jsx'
 
-const TABS = ['Dashboard', 'Compliance', 'Analytics']
-
-export default function Topbar({ onMenuClick }) {
+export default function Topbar({ onMenuClick, title = 'EcoSphere: ESG Management Platform' }) {
   const { user } = useAuth()
 
   return (
@@ -16,24 +14,9 @@ export default function Topbar({ onMenuClick }) {
         >
           <Icon name="menu" />
         </button>
-        <span className="text-headline-sm md:text-headline-md font-bold text-primary hidden sm:block">
-          Executive ESG Overview
+        <span className="text-headline-sm md:text-headline-md font-bold text-primary truncate max-w-[220px] sm:max-w-none">
+          {title}
         </span>
-        <nav className="hidden md:flex gap-6 h-full items-center">
-          {TABS.map((tab, i) => (
-            <a
-              key={tab}
-              href="#"
-              className={`text-body-md px-2 py-5 transition-colors ${
-                i === 0
-                  ? 'text-primary border-b-2 border-primary'
-                  : 'text-on-surface-variant hover:bg-surface-variant/50'
-              }`}
-            >
-              {tab}
-            </a>
-          ))}
-        </nav>
       </div>
 
       <div className="flex items-center gap-3">

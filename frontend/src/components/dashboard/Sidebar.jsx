@@ -1,19 +1,20 @@
-import { useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Icon from '../Icon.jsx'
 import { useAuth } from '../../context/AuthContext.jsx'
 
 const NAV_ITEMS = [
-  { icon: 'dashboard', label: 'Dashboard', active: true },
-  { icon: 'eco', label: 'Environmental' },
-  { icon: 'group', label: 'Social' },
-  { icon: 'gavel', label: 'Governance' },
-  { icon: 'military_tech', label: 'Gamification' },
-  { icon: 'description', label: 'Reports' },
-  { icon: 'settings', label: 'Settings' },
+  { icon: 'dashboard', label: 'Dashboard', to: '/dashboard' },
+  { icon: 'eco', label: 'Environmental', to: '/environmental' },
+  { icon: 'group', label: 'Social', to: null },
+  { icon: 'gavel', label: 'Governance', to: null },
+  { icon: 'military_tech', label: 'Gamification', to: '/gamification' },
+  { icon: 'description', label: 'Reports', to: null },
+  { icon: 'settings', label: 'Settings', to: null },
 ]
 
 export default function Sidebar({ open, onClose }) {
   const navigate = useNavigate()
+  const location = useLocation()
   const { logout } = useAuth()
 
   const handleLogout = () => {
@@ -40,24 +41,39 @@ export default function Sidebar({ open, onClose }) {
           <p className="text-label-md text-surface-variant opacity-70">ESG Management</p>
         </div>
 
-        <nav className="flex-1 flex flex-col gap-1">
-          {NAV_ITEMS.map((item) => (
-            <a
-              key={item.label}
-              href="#"
-              className={`flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 ${
-                item.active
-                  ? 'bg-primary-container text-on-primary-container'
-                  : 'text-surface-variant hover:text-white hover:bg-primary/20'
-              }`}
-            >
-              <Icon
-                name={item.icon}
-                style={item.active ? { fontVariationSettings: "'FILL' 1" } : undefined}
-              />
-              <span className="text-label-md">{item.label}</span>
-            </a>
-          ))}
+        <nav className="flex-1 flex flex-col gap-1 overflow-y-auto">
+          {NAV_ITEMS.map((item) => {
+            const active = item.to && location.pathname === item.to
+            const className = `flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-200 ${
+              active
+                ? 'bg-primary-container text-on-primary-container'
+                : 'text-surface-variant hover:text-white hover:bg-primary/20'
+            }`
+            const content = (
+              <>
+                <Icon
+                  name={item.icon}
+                  style={active ? { fontVariationSettings: "'FILL' 1" } : undefined}
+                />
+                <span className="text-label-md">{item.label}</span>
+              </>
+            )
+
+            return item.to ? (
+              <Link key={item.label} to={item.to} onClick={onClose} className={className}>
+                {content}
+              </Link>
+            ) : (
+              <button
+                key={item.label}
+                type="button"
+                className={`${className} text-left opacity-60 cursor-not-allowed`}
+                title="Coming soon"
+              >
+                {content}
+              </button>
+            )
+          })}
         </nav>
 
         <button className="mt-4 w-full py-3 bg-primary text-white rounded-xl text-label-md flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors">
