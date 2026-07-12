@@ -7,12 +7,12 @@ export default function DashboardLayout({ children, title }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="bg-[#F6F9F7] text-on-surface min-h-screen">
+    <div className="bg-[#F4F7F5] text-on-surface min-h-screen">
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <Topbar onMenuClick={() => setSidebarOpen(true)} title={title} />
 
-      <main className="lg:ml-[260px] pt-16 min-h-screen flex flex-col">
-        <div className="flex-1 max-w-[1440px] w-full mx-auto p-container-padding">{children}</div>
+      <main className="lg:ml-[270px] pt-[72px] min-h-screen flex flex-col">
+        <div className="flex-1 max-w-[1440px] w-full mx-auto p-4 sm:p-6 lg:p-8">{children}</div>
         <DashboardFooter />
       </main>
     </div>

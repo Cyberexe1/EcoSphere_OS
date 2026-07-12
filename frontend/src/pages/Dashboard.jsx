@@ -36,28 +36,30 @@ export default function Dashboard() {
   return (
     <DashboardLayout title="Executive ESG Overview">
       {/* Page header */}
-      <div className="flex flex-wrap gap-4 justify-between items-end mb-8">
+      <div className="flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center mb-5 sm:mb-6">
         <div>
-          <h1 className="text-display-lg text-on-surface mb-1">Executive Overview</h1>
-          <p className="text-body-lg text-on-surface-variant">
+          <h1 className="text-xl sm:text-2xl font-bold text-on-surface">Executive Overview</h1>
+          <p className="text-sm text-on-surface-variant mt-0.5">
             Real-time performance metrics across global ESG standards.
           </p>
         </div>
-        <div className="flex gap-3">
-          <div className="relative" ref={menuRef}>
+        <div className="flex gap-2 w-full sm:w-auto">
+          <div className="relative flex-1 sm:flex-none" ref={menuRef}>
             <button
               onClick={() => setRangeOpen((v) => !v)}
               aria-haspopup="listbox"
               aria-expanded={rangeOpen}
-              className="px-4 py-2 border border-outline-variant rounded-lg text-label-md text-on-surface-variant hover:bg-surface-variant transition-colors flex items-center gap-2"
+              className="w-full sm:w-auto px-3 py-2 bg-white border border-black/[0.06] rounded-lg text-xs font-medium text-on-surface-variant hover:border-primary/30 hover:shadow-sm transition-all flex items-center justify-center sm:justify-start gap-1.5"
             >
-              <Icon name="calendar_today" /> {range}
-              <Icon name="expand_more" className="text-[18px]" />
+              <Icon name="calendar_today" className="text-[16px]" />
+              <span className="hidden sm:inline">{range}</span>
+              <span className="sm:hidden">{range.replace('Last ', '')}</span>
+              <Icon name="expand_more" className="text-[16px] ml-auto sm:ml-0" />
             </button>
             {rangeOpen && (
               <ul
                 role="listbox"
-                className="absolute right-0 mt-2 w-48 bg-white border border-outline-variant rounded-xl shadow-lg py-1 z-20"
+                className="absolute right-0 mt-1.5 w-44 bg-white border border-black/[0.06] rounded-xl shadow-lg py-1 z-20"
               >
                 {RANGES.map((r) => (
                   <li key={r}>
@@ -65,8 +67,8 @@ export default function Dashboard() {
                       role="option"
                       aria-selected={r === range}
                       onClick={() => selectRange(r)}
-                      className={`w-full text-left px-4 py-2 text-body-sm hover:bg-surface-container-low transition-colors ${
-                        r === range ? 'text-primary font-semibold' : 'text-on-surface'
+                      className={`w-full text-left px-3.5 py-2 text-xs hover:bg-black/[0.03] transition-colors ${
+                        r === range ? 'text-primary font-semibold bg-primary/5' : 'text-on-surface'
                       }`}
                     >
                       {r}
@@ -78,9 +80,10 @@ export default function Dashboard() {
           </div>
           <button
             onClick={handleExport}
-            className="px-4 py-2 bg-primary text-white rounded-lg text-label-md hover:opacity-90 transition-opacity flex items-center gap-2"
+            className="px-3 py-2 bg-gradient-to-r from-[#1b5e3b] to-[#2e7d52] text-white rounded-lg text-xs font-semibold hover:shadow-md hover:shadow-primary/20 transition-all flex items-center gap-1.5"
           >
-            <Icon name="download" /> Export PDF
+            <Icon name="download" className="text-[16px]" />
+            <span className="hidden sm:inline">Export PDF</span>
           </button>
         </div>
       </div>
