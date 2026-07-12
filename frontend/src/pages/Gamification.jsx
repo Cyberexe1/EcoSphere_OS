@@ -74,13 +74,13 @@ export default function Gamification() {
   }
 
   return (
-    <DashboardLayout title="EcoSphere: ESG Management Platform">
+    <DashboardLayout title="Gamification">
       {/* Header */}
-      <div className="flex flex-wrap gap-4 justify-between items-end mb-8">
+      <div className="flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center mb-5 sm:mb-6">
         <div>
-          <h1 className="text-display-lg text-on-surface mb-2">Impact Challenges</h1>
-          <p className="text-body-lg text-on-surface-variant max-w-2xl">
-            Drive sustainability through healthy competition. Engage your teams in meaningful environmental action and earn recognition for your green milestones.
+          <h1 className="text-xl sm:text-2xl font-bold text-on-surface">Impact Challenges</h1>
+          <p className="text-sm text-on-surface-variant mt-0.5 max-w-xl">
+            Drive sustainability through healthy competition. Engage your teams in meaningful environmental action.
           </p>
         </div>
         <button
@@ -89,24 +89,24 @@ export default function Gamification() {
             setFormError('')
             setCreateModal(true)
           }}
-          className="bg-accent-orange hover:bg-accent-orange/90 text-on-accent-orange text-label-md py-3 px-6 rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-2"
+          className="px-3 py-2 bg-gradient-to-r from-[#1b5e3b] to-[#2e7d52] text-white text-xs font-semibold rounded-lg hover:shadow-md hover:shadow-primary/20 transition-all flex items-center gap-1.5"
         >
-          <Icon name="add" className="text-lg" style={{ fontVariationSettings: "'FILL' 1" }} />
+          <Icon name="add" className="text-[16px]" />
           Create Challenge
         </button>
       </div>
 
       {/* Category chips */}
-      <div className="flex gap-3 mb-10 overflow-x-auto pb-2">
+      <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
             onClick={() => setActiveCat(cat)}
-            className={`text-label-md px-6 py-2 rounded-full whitespace-nowrap transition-colors flex items-center gap-2 ${
-              activeCat === cat ? 'bg-primary text-on-primary shadow-sm' : 'bg-white border border-outline-variant text-on-surface-variant hover:bg-surface-variant/30'
+            className={`text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap transition-all flex items-center gap-1.5 ${
+              activeCat === cat ? 'bg-gradient-to-r from-[#1b5e3b] to-[#2e7d52] text-white shadow-sm' : 'bg-white border border-black/[0.06] text-on-surface-variant hover:border-primary/30'
             }`}
           >
-            {CAT_ICON[cat] && <Icon name={CAT_ICON[cat]} className="text-sm text-primary" />}
+            {CAT_ICON[cat] && <Icon name={CAT_ICON[cat]} className="text-[14px]" />}
             {cat}
           </button>
         ))}
@@ -114,18 +114,18 @@ export default function Gamification() {
 
       {/* Challenge cards */}
       {filtered.length === 0 ? (
-        <div className="mb-12 bg-white border border-outline-variant rounded-xl">
+        <div className="mb-8 bg-white border border-black/[0.04] rounded-xl">
           <EmptyState icon="emoji_events" title="No challenges in this category" message="Try another category or create a new challenge." />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-card-gap mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-8">
           {filtered.map((c) => (
-            <div key={c.id} className="bg-white border border-outline-variant rounded-xl p-6 flex flex-col hover:border-accent-orange/50 transition-all eco-shadow group relative overflow-hidden">
-              <div className={`absolute top-0 left-0 w-1.5 h-full ${c.accent} opacity-80`} />
-              <div className="flex justify-between items-start mb-4">
-                <div className="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-lg text-label-sm">{c.category}</div>
-                <button onClick={() => setDetail(c)} className="text-on-surface-variant hover:text-accent-orange transition-colors" aria-label="View details">
-                  <Icon name="open_in_full" className="text-[18px]" />
+            <div key={c.id} className="bg-white border border-black/[0.04] rounded-xl p-5 flex flex-col hover:shadow-md transition-all duration-300 group relative overflow-hidden shadow-sm">
+              <div className={`absolute top-0 left-0 w-1 h-full ${c.accent} opacity-80`} />
+              <div className="flex justify-between items-start mb-3">
+                <div className="bg-[#F4F7F5] text-on-surface-variant px-2.5 py-0.5 rounded-lg text-[11px] font-semibold">{c.category}</div>
+                <button onClick={() => setDetail(c)} className="text-on-surface-variant/40 hover:text-primary transition-colors" aria-label="View details">
+                  <Icon name="open_in_full" className="text-[16px]" />
                 </button>
               </div>
               <h3 className="text-headline-sm mb-2">{c.title}</h3>
