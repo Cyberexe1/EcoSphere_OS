@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import Icon from './Icon.jsx'
 
 const NAV_LINKS = [
@@ -29,9 +30,9 @@ export default function Header() {
         }`}
       >
         <div className="flex items-center gap-8">
-          <span className="text-headline-md font-extrabold text-primary tracking-tight">
+          <Link to="/" className="text-headline-md font-extrabold text-primary tracking-tight">
             EcoSphere
-          </span>
+          </Link>
           <nav className="hidden md:flex items-center gap-6">
             {NAV_LINKS.map((link) => (
               <a
@@ -46,12 +47,18 @@ export default function Header() {
         </div>
 
         <div className="hidden md:flex items-center gap-4">
-          <button className="text-label-md text-primary px-4 py-2 hover:bg-surface-variant/50 transition-colors rounded-lg">
+          <Link
+            to="/login"
+            className="text-label-md text-primary px-4 py-2 hover:bg-surface-variant/50 transition-colors rounded-lg"
+          >
             Log in
-          </button>
-          <button className="text-label-md bg-primary text-white px-6 py-2.5 rounded-full hover:shadow-lg transition-all active:scale-95">
+          </Link>
+          <Link
+            to="/signup"
+            className="text-label-md bg-primary text-white px-6 py-2.5 rounded-full hover:shadow-lg transition-all active:scale-95"
+          >
             Get Started
-          </button>
+          </Link>
         </div>
 
         <button
@@ -77,12 +84,20 @@ export default function Header() {
             </a>
           ))}
           <div className="flex flex-col gap-3 pt-4 border-t border-outline-variant/30">
-            <button className="text-label-md text-primary px-4 py-2 rounded-lg border border-outline-variant">
+            <Link
+              to="/login"
+              onClick={() => setMenuOpen(false)}
+              className="text-label-md text-primary px-4 py-2 rounded-lg border border-outline-variant text-center"
+            >
               Log in
-            </button>
-            <button className="text-label-md bg-primary text-white px-6 py-3 rounded-full">
+            </Link>
+            <Link
+              to="/signup"
+              onClick={() => setMenuOpen(false)}
+              className="text-label-md bg-primary text-white px-6 py-3 rounded-full text-center"
+            >
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
       )}
