@@ -12,9 +12,9 @@ import { useSimulatedLoading } from '../hooks/useSimulatedLoading.js'
 import { exportToCsv } from '../utils/csv.js'
 
 const SCOPE_STYLES = {
-  1: 'bg-primary/10 text-primary',
-  2: 'bg-secondary/10 text-secondary',
-  3: 'bg-tertiary/10 text-tertiary',
+  1: 'bg-emerald-100 text-emerald-700',
+  2: 'bg-blue-100 text-blue-700',
+  3: 'bg-amber-100 text-amber-700',
 }
 
 const SCOPE_ICON = { 1: 'oven_gen', 2: 'bolt', 3: 'local_shipping' }
@@ -53,7 +53,6 @@ export default function Environmental() {
   const [formError, setFormError] = useState('')
   const [deleteTarget, setDeleteTarget] = useState(null)
 
-  // Derived summary
   const summary = useMemo(() => {
     const total = entries.reduce((s, e) => s + Number(e.current || 0), 0)
     const scope2 = entries.filter((e) => e.scope === 2).reduce((s, e) => s + Number(e.current || 0), 0)
@@ -168,78 +167,102 @@ export default function Environmental() {
 
   const SortHead = ({ label, sortKey }) => (
     <th
-      className="px-6 py-4 text-label-md text-on-surface-variant uppercase tracking-wider cursor-pointer select-none"
+      className="px-4 sm:px-5 py-3 text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider cursor-pointer select-none"
       onClick={() => toggleSort(sortKey)}
     >
       <span className="inline-flex items-center gap-1">
         {label}
         {sort.key === sortKey && (
-          <Icon name={sort.dir === 'asc' ? 'arrow_upward' : 'arrow_downward'} className="text-[14px]" />
+          <Icon name={sort.dir === 'asc' ? 'arrow_upward' : 'arrow_downward'} className="text-[12px]" />
         )}
       </span>
     </th>
   )
 
   return (
-    <DashboardLayout title="EcoSphere: ESG Management Platform">
-      <div className="space-y-8">
+    <DashboardLayout title="Environmental">
+      <div className="space-y-5 sm:space-y-6">
         {/* Header */}
-        <div className="flex flex-wrap gap-4 justify-between items-end">
+        <div className="flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center">
           <div>
-            <nav className="flex items-center gap-2 text-label-sm text-outline mb-2">
+            <nav className="flex items-center gap-1.5 text-[11px] text-on-surface-variant mb-1.5">
               <span>Environmental</span>
-              <Icon name="chevron_right" className="text-[14px]" />
+              <Icon name="chevron_right" className="text-[12px]" />
               <span className="text-primary font-semibold">Emission Tracking &amp; Goals</span>
             </nav>
-            <h1 className="text-display-lg text-on-surface">Decarbonization Roadmap</h1>
-            <p className="text-body-md text-on-surface-variant mt-1">
+            <h1 className="text-xl sm:text-2xl font-bold text-on-surface">Decarbonization Roadmap</h1>
+            <p className="text-sm text-on-surface-variant mt-0.5">
               Real-time monitoring of corporate carbon footprint and progress towards Net Zero.
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-2 w-full sm:w-auto">
             <button
               onClick={handleExport}
-              className="px-4 py-2 border border-[#E5EAE8] bg-white text-primary text-label-md rounded-lg hover:bg-surface transition-colors flex items-center gap-2"
+              className="flex-1 sm:flex-none px-3 py-2 bg-white border border-black/[0.06] text-on-surface-variant text-xs font-medium rounded-lg hover:border-primary/30 hover:shadow-sm transition-all flex items-center justify-center gap-1.5"
             >
-              <Icon name="file_download" className="text-[18px]" /> Export CSV
+              <Icon name="file_download" className="text-[16px]" /> Export CSV
             </button>
             <button
               onClick={openAdd}
-              className="px-5 py-2 bg-primary text-white text-label-md rounded-lg hover:brightness-110 shadow-sm transition-all flex items-center gap-2"
+              className="flex-1 sm:flex-none px-3 py-2 bg-gradient-to-r from-[#1b5e3b] to-[#2e7d52] text-white text-xs font-semibold rounded-lg hover:shadow-md hover:shadow-primary/20 transition-all flex items-center justify-center gap-1.5"
             >
-              <Icon name="add" className="text-[18px]" /> Add Entry
+              <Icon name="add" className="text-[16px]" /> Add Entry
             </button>
           </div>
         </div>
 
         {/* Summary cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-card-gap">
-          <SummaryCard icon="factory" iconClass="bg-primary-container/20 text-primary" label="Total CO2e Emissions" value={summary.total.toLocaleString()} unit="MT" bar="bg-primary" pct={75} />
-          <SummaryCard icon="bolt" iconClass="bg-secondary-container/20 text-secondary" label="Scope 2 (Indirect)" value={summary.scope2.toLocaleString()} unit="MT" bar="bg-secondary" pct={33} />
-          <SummaryCard icon="local_shipping" iconClass="bg-tertiary-container/20 text-tertiary" label="Scope 3 (Chain)" value={summary.scope3.toLocaleString()} unit="MT" bar="bg-tertiary" pct={60} />
-          <div className="bg-inverse-surface p-6 rounded-xl flex flex-col justify-between">
-            <div>
-              <p className="text-label-md text-primary-fixed uppercase tracking-wider">Sustainability Index</p>
-              <h4 className="text-[28px] font-bold text-white mt-1">84/100</h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <SummaryCard
+            icon="factory"
+            gradient="from-[#1b5e3b] to-[#2e7d52]"
+            label="Total CO2e Emissions"
+            value={summary.total.toLocaleString()}
+            unit="MT"
+            pct={75}
+          />
+          <SummaryCard
+            icon="bolt"
+            gradient="from-[#14532d] to-[#166534]"
+            label="Scope 2 (Indirect)"
+            value={summary.scope2.toLocaleString()}
+            unit="MT"
+            pct={33}
+          />
+          <SummaryCard
+            icon="local_shipping"
+            gradient="from-[#1e3a5f] to-[#2563eb]"
+            label="Scope 3 (Chain)"
+            value={summary.scope3.toLocaleString()}
+            unit="MT"
+            pct={60}
+          />
+          <div className="relative overflow-hidden p-4 sm:p-5 rounded-xl bg-gradient-to-br from-[#1e293b] to-[#334155] flex flex-col justify-between shadow-md">
+            <div className="absolute -top-6 -right-6 w-20 h-20 bg-white/5 rounded-full blur-xl" />
+            <div className="relative z-10">
+              <p className="text-[11px] font-semibold text-white/60 uppercase tracking-wider">Sustainability Index</p>
+              <h4 className="text-3xl font-extrabold text-white mt-1">84/100</h4>
             </div>
-            <span className="inline-block px-2 py-1 bg-primary/20 text-primary-fixed rounded text-label-sm font-bold w-fit">
+            <span className="relative z-10 inline-block px-2 py-1 bg-white/15 text-white rounded text-[11px] font-bold w-fit mt-3">
               TOP 5% IN SECTOR
             </span>
           </div>
         </div>
 
         {/* Data table */}
-        <div className="bg-white border border-[#E5EAE8] rounded-2xl overflow-hidden shadow-sm">
-          <div className="px-6 py-4 border-b border-outline-variant bg-surface-container-low flex flex-wrap items-center justify-between gap-4">
+        <div className="bg-white border border-black/[0.04] rounded-xl overflow-hidden shadow-sm">
+          <div className="px-4 sm:px-5 py-3.5 border-b border-black/[0.04] flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <label className="text-label-sm text-outline font-semibold">SCOPE:</label>
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-100 to-green-50 flex items-center justify-center">
+                <Icon name="filter_alt" className="text-[14px] text-emerald-600" />
+              </div>
               <select
                 value={scopeFilter}
                 onChange={(e) => {
                   setScopeFilter(e.target.value)
                   setPage(1)
                 }}
-                className="bg-white border-outline-variant text-body-md rounded-lg py-1.5 px-3 focus:ring-primary focus:border-primary"
+                className="bg-white border border-black/[0.06] text-sm rounded-lg py-1.5 px-3 focus:ring-primary focus:border-primary"
               >
                 <option value="all">All Scopes</option>
                 <option value="1">Scope 1</option>
@@ -247,15 +270,15 @@ export default function Environmental() {
                 <option value="3">Scope 3</option>
               </select>
             </div>
-            <div className="flex items-center gap-2 bg-white border border-outline-variant rounded-lg px-3 py-1.5 w-full md:w-auto">
-              <Icon name="search" className="text-outline text-[20px]" />
+            <div className="flex items-center gap-2 bg-[#F4F7F5] border border-black/[0.04] rounded-lg px-3 py-1.5 w-full sm:w-auto">
+              <Icon name="search" className="text-on-surface-variant/50 text-[18px]" />
               <input
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value)
                   setPage(1)
                 }}
-                className="border-none p-0 text-body-md focus:ring-0 placeholder-outline/50 w-full md:w-48 outline-none"
+                className="bg-transparent border-none p-0 text-sm focus:ring-0 placeholder-on-surface-variant/40 w-full sm:w-48 outline-none"
                 placeholder="Filter sources..."
                 type="text"
               />
@@ -270,8 +293,8 @@ export default function Environmental() {
               title="No emission entries found"
               message={search || scopeFilter !== 'all' ? 'Try adjusting your filters or search.' : 'Add your first emission source to start tracking.'}
               action={
-                <button onClick={openAdd} className="px-5 py-2 bg-primary text-white text-label-md rounded-lg flex items-center gap-2">
-                  <Icon name="add" className="text-[18px]" /> Add Entry
+                <button onClick={openAdd} className="px-4 py-2 bg-gradient-to-r from-[#1b5e3b] to-[#2e7d52] text-white text-xs font-semibold rounded-lg flex items-center gap-1.5">
+                  <Icon name="add" className="text-[16px]" /> Add Entry
                 </button>
               }
             />
@@ -279,76 +302,76 @@ export default function Environmental() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-surface-container-high border-b border-outline-variant">
+                  <tr className="bg-[#F8FAF9] border-b border-black/[0.04]">
                     <SortHead label="Emission Source" sortKey="source" />
                     <SortHead label="Department" sortKey="department" />
                     <SortHead label="Scope" sortKey="scope" />
                     <SortHead label="Target (MT)" sortKey="target" />
                     <SortHead label="Current (MT)" sortKey="current" />
                     <SortHead label="Progress" sortKey="progress" />
-                    <th className="px-6 py-4 text-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-4" />
+                    <th className="px-4 sm:px-5 py-3 text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Status</th>
+                    <th className="px-4 sm:px-5 py-3" />
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-outline-variant/30">
+                <tbody className="divide-y divide-black/[0.03]">
                   {paged.map((row) => {
                     const status = statusOf(row)
                     const progress = progressOf(row)
                     return (
-                      <tr key={row.id} className="hover:bg-surface-container-lowest transition-colors">
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
-                              <Icon name={SCOPE_ICON[row.scope]} className="text-primary text-[20px]" />
+                      <tr key={row.id} className="hover:bg-black/[0.015] transition-colors">
+                        <td className="px-4 sm:px-5 py-3.5">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-100 to-green-50 flex items-center justify-center">
+                              <Icon name={SCOPE_ICON[row.scope]} className="text-emerald-600 text-[16px]" />
                             </div>
                             <div>
-                              <p className="text-body-md font-bold text-on-surface">{row.source}</p>
-                              <p className="text-label-sm text-outline">{row.ref}</p>
+                              <p className="text-sm font-semibold text-on-surface">{row.source}</p>
+                              <p className="text-[11px] text-on-surface-variant/60">{row.ref}</p>
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 text-body-md text-on-surface-variant">{row.department}</td>
-                        <td className="px-6 py-4">
-                          <span className={`px-2.5 py-0.5 rounded-full font-bold text-[11px] ${SCOPE_STYLES[row.scope]}`}>
+                        <td className="px-4 sm:px-5 py-3.5 text-sm text-on-surface-variant">{row.department}</td>
+                        <td className="px-4 sm:px-5 py-3.5">
+                          <span className={`px-2 py-0.5 rounded-full font-bold text-[10px] ${SCOPE_STYLES[row.scope]}`}>
                             SCOPE {row.scope}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-body-md font-medium">{row.target.toLocaleString()}</td>
-                        <td className={`px-6 py-4 text-body-md font-bold ${status === 'At Risk' ? 'text-error' : ''}`}>
+                        <td className="px-4 sm:px-5 py-3.5 text-sm font-medium">{row.target.toLocaleString()}</td>
+                        <td className={`px-4 sm:px-5 py-3.5 text-sm font-bold ${status === 'At Risk' ? 'text-red-600' : ''}`}>
                           {row.current.toLocaleString()}
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="flex-1 h-1.5 bg-surface-container rounded-full overflow-hidden min-w-[80px]">
+                        <td className="px-4 sm:px-5 py-3.5">
+                          <div className="flex items-center gap-2.5">
+                            <div className="flex-1 h-1.5 bg-black/[0.04] rounded-full overflow-hidden min-w-[70px]">
                               <div
-                                className={`h-full ${status === 'At Risk' ? 'bg-error' : 'bg-primary'}`}
+                                className={`h-full rounded-full ${status === 'At Risk' ? 'bg-red-500' : 'bg-emerald-500'}`}
                                 style={{ width: `${Math.min(progress, 100)}%` }}
                               />
                             </div>
-                            <span className={`text-label-sm font-bold ${status === 'At Risk' ? 'text-error' : 'text-on-surface'}`}>
+                            <span className={`text-[11px] font-bold ${status === 'At Risk' ? 'text-red-600' : 'text-on-surface'}`}>
                               {progress}%
                             </span>
                           </div>
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-4 sm:px-5 py-3.5">
                           <Badge tone={status === 'At Risk' ? 'atRisk' : 'onTrack'} dot>
                             {status}
                           </Badge>
                         </td>
-                        <td className="px-6 py-4 text-right whitespace-nowrap">
+                        <td className="px-4 sm:px-5 py-3.5 text-right whitespace-nowrap">
                           <button
                             onClick={() => openEdit(row)}
-                            className="p-1.5 hover:bg-surface-variant rounded-full text-outline hover:text-primary transition-colors"
+                            className="p-1.5 hover:bg-black/[0.04] rounded-lg text-on-surface-variant/50 hover:text-primary transition-colors"
                             aria-label={`Edit ${row.source}`}
                           >
-                            <Icon name="edit" className="text-[18px]" />
+                            <Icon name="edit" className="text-[16px]" />
                           </button>
                           <button
                             onClick={() => setDeleteTarget(row)}
-                            className="p-1.5 hover:bg-error/10 rounded-full text-outline hover:text-error transition-colors"
+                            className="p-1.5 hover:bg-red-50 rounded-lg text-on-surface-variant/50 hover:text-red-600 transition-colors"
                             aria-label={`Delete ${row.source}`}
                           >
-                            <Icon name="delete" className="text-[18px]" />
+                            <Icon name="delete" className="text-[16px]" />
                           </button>
                         </td>
                       </tr>
@@ -360,27 +383,27 @@ export default function Environmental() {
           )}
 
           {!loading && filtered.length > 0 && (
-            <div className="px-6 py-4 border-t border-outline-variant bg-surface-container-lowest flex items-center justify-between">
-              <p className="text-label-sm text-outline">
-                Showing {(currentPage - 1) * PAGE_SIZE + 1}–{Math.min(currentPage * PAGE_SIZE, filtered.length)} of {filtered.length} entries
+            <div className="px-4 sm:px-5 py-3 border-t border-black/[0.04] flex items-center justify-between">
+              <p className="text-[11px] text-on-surface-variant/60">
+                Showing {(currentPage - 1) * PAGE_SIZE + 1}–{Math.min(currentPage * PAGE_SIZE, filtered.length)} of {filtered.length}
               </p>
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-1.5 items-center">
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
-                  className="px-3 py-1.5 border border-[#E5EAE8] rounded-lg text-outline hover:bg-surface transition-colors disabled:opacity-40"
+                  className="px-2.5 py-1.5 border border-black/[0.06] rounded-lg text-on-surface-variant hover:bg-black/[0.02] transition-colors disabled:opacity-30"
                 >
-                  <Icon name="chevron_left" className="text-[18px]" />
+                  <Icon name="chevron_left" className="text-[16px]" />
                 </button>
-                <span className="text-label-md text-on-surface-variant">
-                  Page {currentPage} / {totalPages}
+                <span className="text-xs text-on-surface-variant px-2">
+                  {currentPage} / {totalPages}
                 </span>
                 <button
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
-                  className="px-3 py-1.5 border border-[#E5EAE8] rounded-lg text-outline hover:bg-surface transition-colors disabled:opacity-40"
+                  className="px-2.5 py-1.5 border border-black/[0.06] rounded-lg text-on-surface-variant hover:bg-black/[0.02] transition-colors disabled:opacity-30"
                 >
-                  <Icon name="chevron_right" className="text-[18px]" />
+                  <Icon name="chevron_right" className="text-[16px]" />
                 </button>
               </div>
             </div>
@@ -398,14 +421,14 @@ export default function Environmental() {
           <>
             <button
               onClick={() => setModalOpen(false)}
-              className="px-5 py-2 rounded-lg text-label-md text-on-surface-variant hover:bg-surface-variant transition-colors"
+              className="px-4 py-2 rounded-lg text-sm text-on-surface-variant hover:bg-black/[0.03] transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               form="entry-form"
-              className="px-5 py-2 rounded-lg text-label-md bg-primary text-white hover:brightness-110 transition-all"
+              className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-[#1b5e3b] to-[#2e7d52] text-white hover:shadow-md transition-all"
             >
               {editing ? 'Save Changes' : 'Add Entry'}
             </button>
@@ -414,7 +437,7 @@ export default function Environmental() {
       >
         <form id="entry-form" onSubmit={saveEntry} className="space-y-4">
           {formError && (
-            <p className="text-body-sm text-error bg-error/10 rounded-lg px-3 py-2">{formError}</p>
+            <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">{formError}</p>
           )}
           <Field label="Emission Source">
             <input
@@ -490,20 +513,23 @@ export default function Environmental() {
   )
 }
 
-function SummaryCard({ icon, iconClass, label, value, unit, bar, pct }) {
+function SummaryCard({ icon, gradient, label, value, unit, pct }) {
   return (
-    <div className="bg-white border border-[#E5EAE8] p-6 rounded-xl">
-      <div className="flex justify-between items-start mb-4">
-        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${iconClass}`}>
-          <Icon name={icon} />
+    <div className={`relative overflow-hidden p-4 sm:p-5 rounded-xl bg-gradient-to-br ${gradient} shadow-md`}>
+      <div className="absolute -top-6 -right-6 w-20 h-20 bg-white/5 rounded-full blur-xl" />
+      <div className="relative z-10">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-7 h-7 rounded-lg bg-white/15 flex items-center justify-center">
+            <Icon name={icon} className="text-[16px] text-white" />
+          </div>
+          <p className="text-[11px] font-semibold text-white/60 uppercase tracking-wider">{label}</p>
         </div>
-      </div>
-      <p className="text-label-md text-outline uppercase tracking-wider">{label}</p>
-      <h4 className="text-[28px] font-bold text-on-surface mt-1">
-        {value} <span className="text-label-md font-normal text-outline">{unit}</span>
-      </h4>
-      <div className="mt-4 h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
-        <div className={`h-full ${bar} rounded-full`} style={{ width: `${pct}%` }} />
+        <h4 className="text-2xl sm:text-3xl font-extrabold text-white">
+          {value} <span className="text-sm font-medium text-white/50">{unit}</span>
+        </h4>
+        <div className="mt-3 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+          <div className="h-full bg-white/40 rounded-full" style={{ width: `${pct}%` }} />
+        </div>
       </div>
     </div>
   )
@@ -512,7 +538,7 @@ function SummaryCard({ icon, iconClass, label, value, unit, bar, pct }) {
 function Field({ label, children }) {
   return (
     <label className="block space-y-1.5">
-      <span className="text-label-md text-on-surface">{label}</span>
+      <span className="text-sm font-medium text-on-surface">{label}</span>
       {children}
     </label>
   )
