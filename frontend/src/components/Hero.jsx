@@ -11,36 +11,44 @@ const HERO_IMAGE =
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden pt-8 pb-20 md:pt-12 md:pb-28 bg-surface">
-      <div className="max-w-[1440px] mx-auto px-container-padding grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div className="relative z-10 space-y-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary-container/20 text-on-primary-container rounded-full border border-primary-container/30">
-            <Icon name="verified" className="text-[18px]" />
-            <span className="text-label-sm">NEXT-GEN ESG MANAGEMENT</span>
+    <section className="relative overflow-hidden pt-12 pb-20 md:pt-16 md:pb-32 bg-surface">
+      {/* Background gradient orbs */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary-container/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4 pointer-events-none" />
+
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-container-padding grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="relative z-10 space-y-6 sm:space-y-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-container/20 text-on-primary-container rounded-full border border-primary-container/30 animate-pulse">
+            <Icon name="verified" className="text-[16px] sm:text-[18px]" />
+            <span className="text-[11px] sm:text-label-sm font-medium">NEXT-GEN ESG MANAGEMENT</span>
           </div>
-          <h1 className="text-[40px] md:text-[56px] leading-[1.1] font-extrabold text-on-surface tracking-tight">
-            Manage your entire <span className="text-primary">ESG program</span> in one place.
+          <h1 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[56px] leading-[1.1] font-extrabold text-on-surface tracking-tight">
+            Manage your entire <span className="text-primary relative">ESG program
+              <svg className="absolute -bottom-2 left-0 w-full hidden sm:block" viewBox="0 0 200 8" fill="none">
+                <path d="M2 6C50 2 150 2 198 6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="text-primary/30" />
+              </svg>
+            </span> in one place.
           </h1>
-          <p className="text-body-lg text-on-surface-variant max-w-xl">
+          <p className="text-body-md sm:text-body-lg text-on-surface-variant max-w-xl">
             A surgical approach to sustainability data. Streamline reporting, track emissions in
             real-time, and drive environmental impact with the industry's most advanced ESG
             platform.
           </p>
-          <div className="flex flex-wrap gap-4">
-            <button className="bg-primary text-on-primary text-label-md px-8 py-4 rounded-full flex items-center gap-2 hover:bg-primary-container transition-all shadow-xl">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <button className="bg-primary text-on-primary text-label-md px-6 sm:px-8 py-3.5 sm:py-4 rounded-full flex items-center justify-center gap-2 hover:shadow-xl hover:shadow-primary/20 hover:-translate-y-0.5 transition-all duration-300">
               Start Free Trial
               <Icon name="arrow_forward" />
             </button>
-            <button className="border border-outline-variant text-label-md text-on-surface px-8 py-4 rounded-full hover:bg-surface-variant/30 transition-all">
+            <button className="border border-outline-variant text-label-md text-on-surface px-6 sm:px-8 py-3.5 sm:py-4 rounded-full hover:bg-surface-variant/30 hover:border-primary/30 transition-all duration-300">
               Book a Demo
             </button>
           </div>
-          <div className="flex items-center gap-4 pt-4">
+          <div className="flex items-center gap-4 pt-2 sm:pt-4">
             <div className="flex -space-x-3">
               {AVATARS.map((src, i) => (
                 <div
                   key={i}
-                  className="w-10 h-10 rounded-full border-2 border-surface bg-slate-200 bg-cover bg-center"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 border-surface bg-slate-200 bg-cover bg-center ring-2 ring-white"
                   style={{ backgroundImage: `url('${src}')` }}
                 />
               ))}
@@ -52,24 +60,29 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative z-10">
-          <div className="bg-white rounded-xl border border-outline-variant eco-shadow overflow-hidden p-2 transform rotate-1 hover:rotate-0 transition-transform duration-700">
-            <div className="bg-surface-container rounded-lg aspect-[16/10] relative">
+        <div className="relative z-10 mt-8 lg:mt-0">
+          <div className="bg-white rounded-2xl border border-outline-variant/60 shadow-2xl shadow-black/5 overflow-hidden p-2 sm:p-3 transform rotate-1 hover:rotate-0 transition-transform duration-700">
+            <div className="bg-surface-container rounded-xl aspect-[16/10] relative overflow-hidden">
               <img
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-cover rounded-xl"
                 alt="EcoSphere ESG dashboard showing carbon trends and sustainability metrics"
                 src={HERO_IMAGE}
               />
             </div>
           </div>
-          <div className="absolute -bottom-8 -left-8 bg-white border border-outline-variant p-6 rounded-xl eco-shadow hidden md:block max-w-[240px]">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-label-md text-on-surface-variant">Net Zero Goal</span>
-              <span className="text-primary font-bold">84%</span>
+          <div className="absolute -bottom-6 -left-4 sm:-bottom-8 sm:-left-8 bg-white border border-outline-variant/60 p-4 sm:p-6 rounded-xl shadow-xl shadow-black/5 hidden sm:block max-w-[220px] sm:max-w-[240px]">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <span className="text-label-sm sm:text-label-md text-on-surface-variant">Net Zero Goal</span>
+              <span className="text-primary font-bold text-sm sm:text-base">84%</span>
             </div>
             <div className="h-2 w-full bg-surface-variant rounded-full overflow-hidden">
-              <div className="h-full bg-primary w-[84%]" />
+              <div className="h-full bg-gradient-to-r from-primary/80 to-primary w-[84%] rounded-full" />
             </div>
+          </div>
+          {/* Floating badge top-right */}
+          <div className="absolute -top-4 -right-2 sm:-top-6 sm:-right-4 bg-white border border-outline-variant/60 px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg shadow-lg hidden md:flex items-center gap-2">
+            <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse" />
+            <span className="text-label-sm text-on-surface-variant">Live Tracking</span>
           </div>
         </div>
       </div>

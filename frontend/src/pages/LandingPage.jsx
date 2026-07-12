@@ -18,11 +18,11 @@ export default function LandingPage() {
       <main className="pt-24">
         <Hero />
         <TrustedBy />
-        <Modules />
         <FeatureHighlight />
+        <Modules />
         <HowItWorks />
-        <Testimonials />
         <Pricing />
+        <Testimonials />
         <Resources />
         <About />
         <CTA />
